@@ -1,0 +1,28 @@
+html {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+ }
+body{
+    width:100%;
+    min-height:100%;
+    overflow:hidden;
+    margin:0px;
+    
+}
+
+.login {
+    padding:10vh;
+    height: 100vh;
+    background-color:rgb(41, 41, 41);
+    color:white;
+}
+
+.frm {
+    padding-top: 8vh;
+}
+
+.logo{
+    width:15vh;
+    height:15vh;
+}
