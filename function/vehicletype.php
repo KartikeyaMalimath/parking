@@ -26,15 +26,16 @@ include ('../include/db.php');
             $prefix = "vtyp";
             $vhid = uniqid($prefix);
 
-            $vhtype = mysqli_real_escape_string($con, $_POST["vhtype"]);  
+            $vhtype = mysqli_real_escape_string($con, $_POST["vhtype"]);
+            $shkey = mysqli_real_escape_string($con, $_POST["skey"]);  
             
             //active / inactive
             $flag = 1;
             
             //Inserting to database
-            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by) VALUES(?,?,?,?,?)";  
+            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by, shortcut) VALUES(?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssdss',$vhid,$vhtype,$flag,$time,$UID);
+            $stmt->bind_param('ssdsss',$vhid,$vhtype,$flag,$time,$UID,$shkey);
             echo "line1";
 
             if ($stmt->execute()) {

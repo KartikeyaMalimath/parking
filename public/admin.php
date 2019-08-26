@@ -70,7 +70,7 @@ $user = $_SESSION['user'];
                                                 <td>{$row['uname']}</td>
                                                 <td>{$row['emp_no']}</td>
                                                 <td>{$row['type']}</td>
-                                                <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$uid." onclick='Due(this.id)'>Delete</button></td>
+                                                <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$uid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
 
@@ -146,4 +146,15 @@ $user = $_SESSION['user'];
     </div>
     <!--=============================-->
 </body>
+
+<script>
+
+//Script to delete users
+function del(Clicked_id) {
+    window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=admin");
+}
+
+</script>
+
+
 </html>

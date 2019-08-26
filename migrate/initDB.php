@@ -37,10 +37,26 @@ else{
                 `flag` INT NULL,
                 `created_date` VARCHAR(45) NULL,
                 `created_by` VARCHAR(45) NULL,
+                `shortcut` VARCHAR(5) NULL,
                 PRIMARY KEY (`vtype_id`))
             ENGINE = InnoDB
             DEFAULT CHARACTER SET = utf8";
     mysqli_query($con, $stmt2);
+
+    $stmt3 = "CREATE TABLE `parking`.`slab_master` (
+                `slab_id` VARCHAR(45) NOT NULL,
+                `slab_name` VARCHAR(45) NULL,
+                `vehicle_type` VARCHAR(45) NULL,
+                `slab_from` VARCHAR(45) NULL,
+                `slab_to` VARCHAR(45) NULL,
+                `slab_charges` VARCHAR(45) NULL,
+                `flag` INT NULL,
+                `created_date` VARCHAR(45) NULL,
+                `created_by` VARCHAR(45) NULL,
+                PRIMARY KEY (`slab_id`))
+            ENGINE = InnoDB
+            DEFAULT CHARACTER SET = utf8";
+    mysqli_query($con,$stmt3);
 
 }
 

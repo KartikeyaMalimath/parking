@@ -20,18 +20,6 @@ $user = $_SESSION['user'];
     <script src="../bootstrap-4.3.1-dist/js/tether.min.js"></script>
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
-    <script>
-        function visible() {
-            var x = document.getElementById("password");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-
-        
-    </script>
     
 </head>
 <!--Body of the Index page-->
@@ -52,6 +40,7 @@ $user = $_SESSION['user'];
                     <thead>
                         <tr>
                         <th>Vehicle Type</th>
+                        <th>Shortcut Key</th>
                         <th>Created On</th>
                         <th>Delete</th>
                         </tr>
@@ -69,8 +58,9 @@ $user = $_SESSION['user'];
                                     $createddate = strtotime($temp0);
                                     echo   "<tr>
                                                 <td>{$row['vtype_name']}</td>
+                                                <td>{$row['shortcut']}</td>
                                                 <td>".date('d/m/Y',$createddate)."</td>
-                                                <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$vhid." onclick='#'>Delete</button></td>
+                                                <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$vhid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
 
@@ -87,7 +77,11 @@ $user = $_SESSION['user'];
                     <div class="form-group">
                         <label for="vhtype">Vehicle Type</label>
                         <input type="text" class="form-control" name="vhtype" id="vhtype" placeholder = "eg: SUV, Bike, auto.."required>
-                    </div>     
+                    </div>  
+                    <div class="form-group">
+                        <label for="skey">Shortcut Key</label>
+                        <input type="text" class="form-control" name="skey" id="skey" placeholder = "eg: s ,b ,a.."required>
+                    </div>    
                     
                     <br>
                         
@@ -102,4 +96,16 @@ $user = $_SESSION['user'];
     </div>
     <!--=============================-->
 </body>
+
+<script>
+
+
+//script to delete vehicle types
+function del(Clicked_id) {
+    window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=vehicles");
+}
+
+</script>
+
+
 </html>

@@ -40,10 +40,16 @@ if(isset($_POST["submit"]))
                             $permission = $row['type'];
                             $setUser = $row['uname'];
                             $UID = $row['user_id'];
+                            $flag = $row['flag'];
+                            if($flag === '0'){
+                                   echo "<script type='text/javascript'>alert('User Invalid');</script>";
+                                   echo "<script>top.window.location = '../index.php'</script>";
+                            }
                             //Set Sessions based on access Rights and Username
                             $_SESSION['access'] = $permission;
                             $_SESSION['user'] = $setUser;
                             $_SESSION['userID'] = $UID;
+                            
                             
                           }
 
