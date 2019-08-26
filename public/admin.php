@@ -2,9 +2,12 @@
 
 <?php
 
+session_start();
 include ('../include/db.php');
 include ('../include/data.php');
-
+include ('adminViews/navbar.php');
+$page = "home";
+$user = $_SESSION['user'];
 ?>
 
 <html>
@@ -17,25 +20,129 @@ include ('../include/data.php');
     <script src="../bootstrap-4.3.1-dist/js/tether.min.js"></script>
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
 
+    <script>
+        function visible() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        
+    </script>
     
 </head>
 <!--Body of the Index page-->
 <body>
     <!--============================-->
     <!---->
-    <!-- column for Image-->
-    <div class="sidebar">
-        <a class="active" href="#home"><i class="fa fa-fw fa-user"></i>Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
-    </div>    
-    <!--column for login box-->
+    <!-- column for Sidebar-->
+    <?php echo $navbar;?>
+
+    <script>
+        document.getElementById("home").classList.add('active');
+    </script>
+    <!--column for registration box-->
     <div class="content">
-    <h2>Responsive Sidebar Example</h2>
-    <p>This example use media queries to transform the sidebar to a top navigation bar when the screen size is 700px or less.</p>
-    <p>We have also added a media query for screens that are 400px or less, which will vertically stack and center the navigation links.</p>
-    <h3>Resize the browser window to see the effect.</h3>
+        <div class= "row">
+            <div class = "col-sm-7" >
+                <table class='content-table' style="margin-top:10vh">
+                    <thead>
+                        <tr>
+                        <th>User Name</th>
+                        <th>Employee No.</th>
+                        <th>Access Type</th>
+                        <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+
+                            $query1 = "SELECT * FROM user_master where flag = '1'";
+                            $result1 = $con->query($query1);
+
+                            if($result1->num_rows > 0) {
+                                while($row = $result1-> fetch_assoc()) {
+                                    $uid = $row['user_id'];
+                                    echo   "<tr>
+                                                <td>{$row['uname']}</td>
+                                                <td>{$row['emp_no']}</td>
+                                                <td>{$row['type']}</td>
+                                                <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$uid." onclick='Due(this.id)'>Delete</button></td>
+                                            </tr>";
+                                }
+
+                            }  
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class = "col-sm-5" >
+            <!--Registration form-->
+            <div class="card reg" id="userRegCard">
+                <form class="frm" method="POST" action="../function/register.php" >
+                    <center><h4>User Registration</h4></center>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" required>
+                    </div>   
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" name="password" id="password" required>
+                    </div> 
+                    <div class="form-group">
+                        <input type="checkbox" onClick="visible()">
+                        <label for="Shpassword">Show password</label>
+                    </div>    
+                    <div class="form-group">
+                        <label for="fullname">Fullname</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" required>
+                    </div> 
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="phone" id="phone" maxlength="10" required">
+                    </div>
+                    <div class="form-group">
+                        <label for="idtype">ID proof type</label>
+                        <select class="form-control" id="idtype" name="idtype" required>
+                            <option value="aadhar" selected>AADHAR</option>
+                            <option value="dl">Driving License</option>
+                            <option value="votersid">Voters ID</option>
+                            <option value="pan">PAN Card</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idno">ID Number</label>
+                        <input type="text" class="form-control" name="idno" id="idno" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="empno">Employee Number</label>
+                        <input type="text" class="form-control" name="empno" id="empno">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea rows="3" class="form-control" name="address" id="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="usertype">User Type</label>
+                        <select class="form-control" id="usertype" name="usertype" required>
+                            <option value = "user" selected>User</option>
+                            <option value = "security">Security</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <br>
+                        
+                    <div class="form-group">
+                        <input type="submit" class="form-control" name="submit" id="submit" value="submit">
+                    </div>    
+                </form>
+            </div>
+            <!--registration form end-->
+            </div>
+        </div>    
     </div>
     <!--=============================-->
 </body>

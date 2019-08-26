@@ -41,7 +41,7 @@ include ('include/data.php');
     <!--column for login box-->
         <div class = "col-sm-5 shadow-sm login">
             <div>
-                <form class="frm" method="POST">
+                <form class="frm" method="POST" action ="function/login.php">
                     <div class="form-group">
                         <center><img src="images/logo.png" class="img-rounded logo" alt="Cinque Terre"></center>
                     </div>
@@ -60,7 +60,7 @@ include ('include/data.php');
                         <label for="Shpassword">Show password</label>
                     </div>    
                     <div class="form-group">
-                        <input type="button" class="form-control" name="submit" id="submit" value="submit">
+                        <input type="Submit" class="form-control" name="submit" id="submit" value="submit">
                     </div>    
                 </form>
             </div>

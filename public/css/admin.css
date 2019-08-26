@@ -1,6 +1,7 @@
 body {
     margin: 0;
     font-family: "Lato", sans-serif;
+    background-color: #c2c2c2
   }
   
   .sidebar {
@@ -15,8 +16,8 @@ body {
   
   .sidebar a {
     display: block;
-    color: black;
-    padding: 16px;
+    color: white;
+    padding: 12px;
     text-decoration: none;
   }
    
@@ -35,6 +36,27 @@ body {
     padding: 1px 16px;
     height: 1000px;
   }
+
+/*regitration form*/
+.reg {
+  margin: 10vh 2vh 2vh 2vh;
+  padding-left: 4vh;
+  padding-right:4vh;
+  padding-top:10vh;
+  padding-bottom:10vh;
+  background-color: rgb(41, 41, 41);
+  color: whitesmoke;
+}
+/*navbar logo*/
+.imglogo {
+  margin:25px;
+  width:100px;
+  height:100px;
+}
+
+.form-control{
+  background-color: rgb(231, 231, 231);
+}
   
   @media screen and (max-width: 700px) {
     .sidebar {
@@ -52,3 +74,79 @@ body {
       float: none;
     }
   }
+
+/*Scroll-bar styling*/
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/*Table design*/
+
+* {
+  font-family: sans-serif; /* Change your font family */
+}
+
+.content-table {
+  width:100%;
+  border-collapse: collapse;
+  margin: 10vh 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+  background-color: #A1337C;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+  padding: 1vh 2vh;
+}
+
+.content-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+  border-bottom: 2px solid #A1337C;
+}
+
+.content-table tbody tr.active-row {
+  font-weight: bold;
+  color: #d60c0c;
+  background-color: #e7aaaa;
+}
+
+/*delete button btn class*/
+
+.btn {
+  padding : 1vh;
+  font-size: 10px;
+
+}

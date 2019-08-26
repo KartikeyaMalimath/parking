@@ -13,10 +13,10 @@ else{
     mysqli_query($con, $stmt0);
     //create User_Master Table
     $stmt1 = "CREATE TABLE `parking`.`user_master` (
-        `user_id` INT NOT NULL,
+        `user_id` VARCHAR(20) NOT NULL,
         `uname` VARCHAR(45) NULL,
         `password` VARCHAR(150) NULL,
-        `Fullname` VARCHAR(100) NULL,
+        `fullname` VARCHAR(100) NULL,
         `id_proof_type` VARCHAR(45) NULL DEFAULT NULL,
         `id_number` VARCHAR(45) NULL DEFAULT NULL,
         `emp_no` VARCHAR(45) NULL DEFAULT NULL,
@@ -31,6 +31,16 @@ else{
       COLLATE = utf8_danish_ci";
     mysqli_query($con, $stmt1);
 
+    $stmt2 = "CREATE TABLE `parking`.`vehicle_type_master` (
+                `vtype_id` VARCHAR(20) NOT NULL,
+                `vtype_name` VARCHAR(45) NULL,
+                `flag` INT NULL,
+                `created_date` VARCHAR(45) NULL,
+                `created_by` VARCHAR(45) NULL,
+                PRIMARY KEY (`vtype_id`))
+            ENGINE = InnoDB
+            DEFAULT CHARACTER SET = utf8";
+    mysqli_query($con, $stmt2);
 
 }
 
