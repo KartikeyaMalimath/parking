@@ -65,10 +65,10 @@ if(isset($_POST["submit"]))
 
                             }
                             //User Login (Ticket Vendor)
-                            elseif($permission == 'user')
-                                echo "<script>top.window.location = '../test.php'</script>";
+                            else if($permission == 'user')
+                                echo "<script>top.window.location = '../public/parking.php'</script>";
                             //Security Login (Ticket Checkout)
-                            else 
+                            else if($permission == 'security')
                                 echo "<script>top.window.location = '../deptpanel.php'</script>";
                         }
                      }  

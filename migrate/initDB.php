@@ -51,12 +51,37 @@ else{
                 `slab_to` VARCHAR(45) NULL,
                 `slab_charges` VARCHAR(45) NULL,
                 `flag` INT NULL,
+                `slab_add_dur` VARCHAR(45) NULL,
+                `slab_add_charge` VARCHAR(45) NULL,
                 `created_date` VARCHAR(45) NULL,
                 `created_by` VARCHAR(45) NULL,
                 PRIMARY KEY (`slab_id`))
             ENGINE = InnoDB
             DEFAULT CHARACTER SET = utf8";
     mysqli_query($con,$stmt3);
+
+    $stmt4 = "CREATE TABLE `parking`.`transaction_master` (
+                `trn_id` VARCHAR(45) NOT NULL,
+                `tag_id` VARCHAR(45) NULL,
+                `vehicle_no` VARCHAR(45) NULL,
+                `vehicle_type` VARCHAR(45) NULL,
+                `customer_name` VARCHAR(45) NULL,
+                `customer_phone` VARCHAR(12) NULL,
+                `check_in` VARCHAR(45) NULL,
+                `check_out` VARCHAR(45) NULL,
+                `total_duration` VARCHAR(45) NULL,
+                `slab_name` VARCHAR(45) NULL,
+                `slab_id` VARCHAR(45) NULL,
+                `amount` VARCHAR(45) NULL,
+                `helmet` VARCHAR(10) NULL,
+                `helmet_advance` VARCHAR(45) NULL,
+                `helmet_amount` VARCHAR(45) NULL,
+                `in_username` VARCHAR(45) NULL,
+                `out_username` VARCHAR(45) NULL,
+                PRIMARY KEY (`trn_id`))
+            ENGINE = InnoDB
+            DEFAULT CHARACTER SET = utf8";
+    mysqli_query($con,$stmt4);
 
 }
 

@@ -48,6 +48,9 @@ $user = $_SESSION['user'];
                         <th>Vehicle Type</th>
                         <th>Duration From</th>
                         <th>Duration To</th>
+                        <th>charges</th>
+                        <th>Additional Duration</th>
+                        <th>Additional Charges</th>
                         <th>Delete</th>
                         </tr>
                     </thead>
@@ -67,8 +70,11 @@ $user = $_SESSION['user'];
                                     echo   "<tr>
                                                 <td>{$row['slab_name']}</td>
                                                 <td>{$vtypeout['vtype_name']}</td>
-                                                <td>{$row['slab_from']}</td>
-                                                <td>{$row['slab_to']}</td>
+                                                <td>{$row['slab_from']} hr</td>
+                                                <td>{$row['slab_to']} hr</td>
+                                                <td>{$row['slab_charges']} Rs.</td>
+                                                <td>{$row['slab_add_dur']} hr</td>
+                                                <td>{$row['slab_add_charge']} Rs.</td>
                                                 <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$sid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
@@ -108,7 +114,7 @@ $user = $_SESSION['user'];
                     </div>
                     <div class="form-group">
                         <label for="sbcharge">Slab Charges</label>
-                        <input type="text" class="form-control" name="sbcharge" id="sbcharge" placeholder="In Rupees" >
+                        <input type="text" class="form-control" name="sbcharge" id="sbcharge" placeholder="In Rupees" required>
                     </div>             
                     <br> 
                     <div class="form-group">
@@ -124,6 +130,15 @@ $user = $_SESSION['user'];
                         <label for="sbto">Slab Duration To</label>
                         <input type="text" class="form-control" name="sbto" id="sbto" placeholder="In hours" >
                     </div> 
+                    <div class="form-group">
+                        <label for="sbadd">Additional Duration</label>
+                        <input type="text" class="form-control" name="sbadd" id="sbadd" placeholder="In hours" >
+                    </div>
+                    <div class="form-group">
+                        <label for="sbaddch">Additional Duration Charges</label>
+                        <input type="text" class="form-control" name="sbaddch" id="sbaddch" placeholder="In Rupees" >
+                    </div>
+
                     
                     <br>
                         
@@ -151,15 +166,21 @@ function duration() {
             if(checkbox.checked == true){
                 document.getElementById("sbfrom").disabled = true;
                 document.getElementById("sbto").disabled = true;
+                document.getElementById("sbadd").disabled = true;
+                document.getElementById("sbaddch").disabled = true;
                 document.getElementById("sbfrom").placeholder = "disabled";
                 document.getElementById("sbto").placeholder = "disabled"; 
-                document.getElementById("sbform").value = "-1";           
-                document.getElementById("sbto").value = "-1";
+                document.getElementById("sbadd").placeholder = "disabled";
+                document.getElementById("sbaddch").placeholder = "disabled";
             } else {
                 document.getElementById("sbfrom").disabled = false;
                 document.getElementById("sbfrom").placeholder = "In hours";
                 document.getElementById("sbto").disabled = false;
                 document.getElementById("sbto").placeholder = "In hours";
+                document.getElementById("sbadd").disabled = false;
+                document.getElementById("sbadd").placeholder = "In hours";
+                document.getElementById("sbaddch").disabled = false;
+                document.getElementById("sbaddch").placeholder = "In Rupees";
             }
         }
 
