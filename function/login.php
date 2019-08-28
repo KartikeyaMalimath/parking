@@ -69,7 +69,7 @@ if(isset($_POST["submit"]))
                                 echo "<script>top.window.location = '../public/parking.php'</script>";
                             //Security Login (Ticket Checkout)
                             else if($permission == 'security')
-                                echo "<script>top.window.location = '../deptpanel.php'</script>";
+                                echo "<script>top.window.location = '../public/scan.php'</script>";
                         }
                      }  
                      else  

@@ -6,9 +6,12 @@ session_start();
 $UID = $_SESSION['userID'];
 
 include ('../include/db.php');
- echo "test";
- if(isset($_POST['submit']))  
- {  
+include('../include/phpqrcode/qrlib.php');
+
+
+echo "test";
+if(isset($_POST['submit']))  
+{  
     echo "submit";
     if(empty($_POST["trnvhno"]) || empty($_POST["trsbtype"]))  
     {  
@@ -54,6 +57,14 @@ include ('../include/db.php');
 
         if ($stmt->execute()) {
             echo "line2";
+
+            //IF successful generate QR code
+            
+            $tempDir = '../dump/';
+
+            QRcode::png($trnid, $tempDir.'tranQRtemp.png', QR_ECLEVEL_L, 3);
+
+
             echo "<script>top.window.location = '../public/parking.php'</script>";
             exit();
         }  else {
@@ -64,9 +75,10 @@ include ('../include/db.php');
         // echo "Error, please try again later"; //live environment
         }
     }
-    
+
     $con->close();
-}  else {
+}  
+else {
     echo "<script>top.window.location = '../public/parking.php'</script>";
 }
 
