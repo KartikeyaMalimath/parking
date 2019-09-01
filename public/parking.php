@@ -82,11 +82,15 @@ $user = $_SESSION['user'];
                             <input type="tel" pattern="[6-9]{1}[0-9]{9}" class="form-control" name="trphone" id="trphone" maxlength="10" tabindex="4">
                         </div>
                         <div class="form-group">
-                            <label for="trhel">Helmet</label>
-                            <select class="form-control" id="trhel" name="trhel" tabindex="5" onchange="helmetfocus()" required>
+                            <label for="trhelsel">Helmet</label>
+                            <select class="form-control" id="trhelsel" name="trhelsel" tabindex="5" onchange="helmetfocus()" required>
                                 <option value="no">No</option>
                                 <option value="yes">Yes</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="trhel">Number of helmets</label>
+                            <input type="number" class="form-control" name="trhel" id="trhel" placeholder="disabled" tabindex="-1" disabled>
                         </div>
                         <div class="form-group">
                             <label for="trheladv">Helmet Advance Amount</label>
@@ -116,19 +120,27 @@ $user = $_SESSION['user'];
 <script>
 
 function helmetfocus(){
-    var e = document.getElementById("trhel");
+    var e = document.getElementById("trhelsel");
     var selectedValue = e.options[e.selectedIndex].value;
 
     if(selectedValue == "yes")
     {
         document.getElementById("trheladv").disabled = false;
-        document.getElementById("trheladv").tabindex = 6;
+        document.getElementById("trheladv").tabindex = 7;
         document.getElementById("trheladv").placeholder = "Helmet advance in Rupees";
+
+        document.getElementById("trhel").disabled = false;
+        document.getElementById("trhel").tabindex = 6;
+        document.getElementById("trhel").placeholder = "Number of Helmets";
     }else
     { 
         document.getElementById("trheladv").disabled = true;
         document.getElementById("trheladv").tabindex = -1
         document.getElementById("trheladv").placeholder = "disabled";
+
+        document.getElementById("trhel").disabled = true;
+        document.getElementById("trhel").tabindex = -1
+        document.getElementById("trhel").placeholder = "disabled";
     }
 }
 

@@ -1,16 +1,25 @@
-<?php
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
 
-include('include/phpqrcode/qrlib.php');
-$tempDir = 'dump/';
+                document.body.innerHTML = printContents;
 
-QRcode::png('kartikeya', $tempDir.'007_1.png', QR_ECLEVEL_L, 3); 
+                window.print();
 
-echo '<img src="'.$tempDir.'007_1.png" />';
-
-$date1 = date_create('28-08-2019 13:30:15');
-$date2 = date_create('29-09-2019 02:30:15');
-$totaldays = date_diff($date1, $date2);
-$a = $totaldays->format('%a %h:%i:%s');
-echo $a;
-
-?>                                            
+                document.body.innerHTML = originalContents;
+            }
+        </script>
+    </head>
+    <body>
+    <div id="printableArea" style="width:200px;">
+      <h3><center>Parking Ticktet</center></h3>
+     <center><img src="dump/tranQRtemp.png" ></center>
+    </div>
+uyvzubgzcbgy
+    <input type="button" onclick="printDiv('printableArea')" value="print a div!" />
+    </body>
+</html>

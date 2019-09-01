@@ -19,6 +19,7 @@ $user = $_SESSION['user'];
     <link rel="stylesheet" href="css/admin.css">
     <script src="../bootstrap-4.3.1-dist/js/tether.min.js"></script>
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="../include\sweetalert.min.js"></script>
 
     
 </head>
@@ -102,7 +103,28 @@ $user = $_SESSION['user'];
 
 //script to delete vehicle types
 function del(Clicked_id) {
-    window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=vehicles");
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this Vehicle Type!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+            swal({title: "Vehicle Type Deleted!",
+                    icon: "success",
+                    button: "OK",})
+            .then(() => {
+            window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=vehicles");
+            });
+            
+        } else {
+            swal("Vehicle type is Safe!");
+        }
+    });
+
+    
 }
 
 </script>

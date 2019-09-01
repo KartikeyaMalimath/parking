@@ -19,6 +19,7 @@ $user = $_SESSION['user'];
     <link rel="stylesheet" href="css/admin.css">
     <script src="../bootstrap-4.3.1-dist/js/tether.min.js"></script>
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="../include/sweetalert.min.js"></script>
 
     <script>
         
@@ -49,8 +50,6 @@ $user = $_SESSION['user'];
                         <th>Duration From</th>
                         <th>Duration To</th>
                         <th>charges</th>
-                        <th>Additional Duration</th>
-                        <th>Additional Charges</th>
                         <th>Delete</th>
                         </tr>
                     </thead>
@@ -73,8 +72,6 @@ $user = $_SESSION['user'];
                                                 <td>{$row['slab_from']} hr</td>
                                                 <td>{$row['slab_to']} hr</td>
                                                 <td>{$row['slab_charges']} Rs.</td>
-                                                <td>{$row['slab_add_dur']} hr</td>
-                                                <td>{$row['slab_add_charge']} Rs.</td>
                                                 <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$sid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
@@ -113,33 +110,17 @@ $user = $_SESSION['user'];
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="sbcharge">Slab Charges</label>
-                        <input type="text" class="form-control" name="sbcharge" id="sbcharge" placeholder="In Rupees" required>
-                    </div>             
-                    <br> 
-                    <div class="form-group">
-                        <input type="checkbox" id="dur" onClick="duration()">
-                        <label for="duration">No Slab Duration</label>
-                    </div>  
-                    <hr>
-                    <div class="form-group">
                         <label for="sbfrom">Slab Duration From</label>
                         <input type="text" class="form-control" name="sbfrom" id="sbfrom" placeholder="In hours" >
                     </div> 
                     <div class="form-group">
                         <label for="sbto">Slab Duration To</label>
                         <input type="text" class="form-control" name="sbto" id="sbto" placeholder="In hours" >
+                    </div>
+                    <div class="form-group">
+                        <label for="sbcharge">Slab Charges</label>
+                        <input type="text" class="form-control" name="sbcharge" id="sbcharge" placeholder="In Rupees" required>
                     </div> 
-                    <div class="form-group">
-                        <label for="sbadd">Additional Duration</label>
-                        <input type="text" class="form-control" name="sbadd" id="sbadd" placeholder="In hours" >
-                    </div>
-                    <div class="form-group">
-                        <label for="sbaddch">Additional Duration Charges</label>
-                        <input type="text" class="form-control" name="sbaddch" id="sbaddch" placeholder="In Rupees" >
-                    </div>
-
-                    
                     <br>
                         
                     <div class="form-group">
@@ -158,7 +139,26 @@ $user = $_SESSION['user'];
 
 //Script to delete users
 function del(Clicked_id) {
-    window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=slabs");
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this Slab!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+            swal({title: "Slab Deleted!",
+                    icon: "success",
+                    button: "OK",})
+            .then(() => {
+            window.location.href = ("../function/delete.php?id="+Clicked_id+"&page=slabs");
+            });
+            
+        } else {
+            swal("Slab is safe!");
+        }
+    });
 }
 
 function duration() {

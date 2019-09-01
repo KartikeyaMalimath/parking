@@ -61,12 +61,12 @@ $user = $_SESSION['user'];
 
 let scanner = new Instascan.Scanner(
     {
-        video: document.getElementById('preview')
+        video: document.getElementById('preview'), mirror:false
     }
 );
 scanner.addListener('scan', function(content) {
     alert('User Id: ' + content);
-    top.window.location = "../function/calamount.php?id="+content;
+    top.window.location = "../function/amount.php?id="+content;
 });
 Instascan.Camera.getCameras().then(cameras => 
 {

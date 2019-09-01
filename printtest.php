@@ -1,30 +1,19 @@
-<!Doctype html>
+<?php
 
-<html>
-<head>
-    <script type="text/javascript">
-    function printDiv(divName) {
-     var printContents = document.getElementById(divName).innerHTML;
-     var originalContents = document.body.innerHTML;
+date_default_timezone_set('Asia/Kolkata'); 
+    $t=time();
+    $time = date("d-m-Y G:i:s", $t);
 
-     document.body.innerHTML = printContents;
+    $indate = date("30-08-2019 22:30:00");
+    $outdate = date("01-09-2019 21:00:00");
 
-     window.print();
+    $date1 = date_create($indate);
+    $date2 = date_create($outdate);
+    $totaldays = date_diff($date1, $date2);
+    $days = $totaldays->format('%a');
+    $hrs = $totaldays->format('%h');
+    $mins = $totaldays->format('%i');
+    echo $days." days ".$hrs." hrs ".$mins." mins";
 
-     document.body.innerHTML = originalContents;
-}
-    </script>
+?>
 
-</head>
-<body>
-    <form>
-    <input type="text" name="test" id="test">
-    <input type="submit" onClick="printDIV('print')" placeholder="submit">
-    </form>
-    <div class="print" id="print">
-        <input type="text" id="display">
-        
-    </div>
-    
-</body>
-</html>

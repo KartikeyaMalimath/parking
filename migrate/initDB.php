@@ -8,11 +8,12 @@ if(!$con){
 }
 else{ 
     echo "connected";
-    //Create Schema/Database
-    $stmt0 = "CREATE SCHEMA `parking` DEFAULT CHARACTER SET utf8" ;
-    mysqli_query($con, $stmt0);
+    //Create Schema/Database if required
+        //$stmt0 = "CREATE SCHEMA `parking` DEFAULT CHARACTER SET utf8" ;
+        //mysqli_query($con, $stmt0);
+
     //create User_Master Table
-    $stmt1 = "CREATE TABLE `parking`.`user_master` (
+    $stmt1 = "CREATE TABLE `user_master` (
         `user_id` VARCHAR(20) NOT NULL,
         `uname` VARCHAR(45) NULL,
         `password` VARCHAR(150) NULL,
@@ -31,7 +32,7 @@ else{
       COLLATE = utf8_danish_ci";
     mysqli_query($con, $stmt1);
 
-    $stmt2 = "CREATE TABLE `parking`.`vehicle_type_master` (
+    $stmt2 = "CREATE TABLE `vehicle_type_master` (
                 `vtype_id` VARCHAR(20) NOT NULL,
                 `vtype_name` VARCHAR(45) NULL,
                 `flag` INT NULL,
@@ -43,7 +44,7 @@ else{
             DEFAULT CHARACTER SET = utf8";
     mysqli_query($con, $stmt2);
 
-    $stmt3 = "CREATE TABLE `parking`.`slab_master` (
+    $stmt3 = "CREATE TABLE `slab_master` (
                 `slab_id` VARCHAR(45) NOT NULL,
                 `slab_name` VARCHAR(45) NULL,
                 `vehicle_type` VARCHAR(45) NULL,
@@ -51,8 +52,6 @@ else{
                 `slab_to` VARCHAR(45) NULL,
                 `slab_charges` VARCHAR(45) NULL,
                 `flag` INT NULL,
-                `slab_add_dur` VARCHAR(45) NULL,
-                `slab_add_charge` VARCHAR(45) NULL,
                 `created_date` VARCHAR(45) NULL,
                 `created_by` VARCHAR(45) NULL,
                 PRIMARY KEY (`slab_id`))
@@ -60,7 +59,7 @@ else{
             DEFAULT CHARACTER SET = utf8";
     mysqli_query($con,$stmt3);
 
-    $stmt4 = "CREATE TABLE `parking`.`transaction_master` (
+    $stmt4 = "CREATE TABLE `transaction_master` (
                 `trn_id` VARCHAR(45) NOT NULL,
                 `tag_id` VARCHAR(45) NULL,
                 `vehicle_no` VARCHAR(45) NULL,

@@ -1,5 +1,7 @@
 <?php
 
+//This calculation resets for every day with respect to date
+
 session_start();
 
 include ('../include/db.php');

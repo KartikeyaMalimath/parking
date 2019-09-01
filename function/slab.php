@@ -3,6 +3,8 @@
 //function to register new slabs
 session_start();
 
+echo "<script src='../include\sweetalert.min.js'></script>";
+
 $UID = $_SESSION['userID'];
 
 include ('../include/db.php');
@@ -29,10 +31,7 @@ include ('../include/db.php');
             $sbname = mysqli_real_escape_string($con, $_POST["sbname"]); 
             $sbtype = mysqli_real_escape_string($con, $_POST["sbtype"]); 
             $sbfrom = mysqli_real_escape_string($con, $_POST["sbfrom"]); 
-            $sbto = mysqli_real_escape_string($con, $_POST["sbto"]); 
-            $sbtype = mysqli_real_escape_string($con, $_POST["sbtype"]); 
-            $sbadd = mysqli_real_escape_string($con, $_POST["sbadd"]); 
-            $sbaddch = mysqli_real_escape_string($con, $_POST["sbaddch"]);
+            $sbto = mysqli_real_escape_string($con, $_POST["sbto"]);
             $sbcharges = mysqli_real_escape_string($con, $_POST["sbcharge"]);
             
             //active / inactive
@@ -40,15 +39,22 @@ include ('../include/db.php');
             
             //password Hashing 
             //Inserting to database
-            $query = "INSERT INTO slab_master (slab_id, slab_name, vehicle_type, slab_from, slab_to, slab_charges, flag, slab_add_dur, slab_add_charge, created_date, created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)";  
+            $query = "INSERT INTO slab_master (slab_id, slab_name, vehicle_type, slab_from, slab_to, slab_charges, flag, created_date, created_by) VALUES(?,?,?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssssssdssss',$slabid, $sbname, $sbtype, $sbfrom, $sbto, $sbcharges, $flag, $sbadd, $sbaddch, $time, $UID);
+            $stmt->bind_param('ssssssdss',$slabid, $sbname, $sbtype, $sbfrom, $sbto, $sbcharges, $flag, $time, $UID);
             echo "line1";
 
             if ($stmt->execute()) {
                 echo "line2";
-                echo "<script type='text/javascript'>alert('Slab Created');</script>";
-                echo "<script>top.window.location = '../public/slabs.php'</script>";
+                echo "<script type='text/javascript'>
+                        swal({
+                            title: 'Good job!',
+                            text: 'You clicked the button!',
+                            icon: 'success',
+                            button: 'Aww yiss!',
+                        });
+                        top.window.location = '../public/slabs.php'
+                </script>";
                 exit();
             }  else {
                 
