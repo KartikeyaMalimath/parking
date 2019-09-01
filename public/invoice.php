@@ -59,34 +59,6 @@ $user = $_SESSION['user'];
 
 <script>
 
-let scanner = new Instascan.Scanner(
-    {
-        video: document.getElementById('preview'), mirror:false
-    }
-);
-scanner.addListener('scan', function(content) {
-    alert('User Id: ' + content);
-    top.window.location = "../function/amount.php?id="+content;
-});
-Instascan.Camera.getCameras().then(cameras => 
-{
-    if(cameras.length == 1){
-        scanner.start(cameras[0]);
-    }
-    else if(cameras.length == 2) {
-        scanner.start(cameras[1]);
-    }
-    else {
-        console.error("Error scanning");
-    }
-});
-
-var aud = document.getElementById("myAudio"); 
-
-function playAudio() { 
-  audio.play(); 
-}
-
 </script>
 
 

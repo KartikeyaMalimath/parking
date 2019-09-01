@@ -1,4 +1,5 @@
 <?php
+echo "<script src='include\sweetalert.min.js'></script>";
 
 date_default_timezone_set('Asia/Kolkata'); 
     $t=time();
@@ -13,7 +14,33 @@ date_default_timezone_set('Asia/Kolkata');
     $days = $totaldays->format('%a');
     $hrs = $totaldays->format('%h');
     $mins = $totaldays->format('%i');
-    echo $days." days ".$hrs." hrs ".$mins." mins";
+
+    echo "
+    <script type='text/javascript'>
+    setTimeout(function() {
+        swal({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this imaginary file!',
+            icon: 'warning',
+            buttons: ['Not paid', 'paid'],
+            
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal('Poof! Your imaginary file has been deleted!', {
+                icon: 'success',
+              });
+            } else {
+              swal('Your imaginary file is safe!');
+            }
+          });
+      }, 200);
+    
+    </script>
+    ";
+    if (isset($_POST['submit'])){
+        echo $days." days ".$hrs." hrs ".$mins." mins";
+    }
 
 ?>
 
