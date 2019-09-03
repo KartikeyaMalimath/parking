@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<head>
+    <script src='../include/sweetalert.min.js'></script>
+    <script src="../include/jquery-3.4.1.min.js"></script>
+
+</head>
+<html>
+<body style="background-color:#f2f2f2;">
+
+<h2 id="h2">Checkout confirm</h2>
+
+
+</body>
+
+
+
 <?php
 
 session_start();
@@ -34,7 +50,17 @@ if(isset($_GET['id'])){
     //check amount paid or not
     $checkamount = $trnrow['amount'];
     if ($checkamount != NULL) {
-        echo "<script>top.window.location = '../public/scan.php'</script>";
+        echo "<script type='text/javascript'>
+            swal({
+                title: 'Amount Already Paid!',
+                text: 'Transaction is already completed',
+                icon: 'success',
+                button: 'Continue!',
+            }).then(() => {
+                top.window.location = '../public/scan.php';       
+            });
+        </script>
+        ";
         exit;
     }
 
@@ -79,7 +105,7 @@ if(isset($_GET['id'])){
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $gethelslabrow['slab_charges'] * $helmetno;
             //dev only
-            echo " hel ".$helmetcharge." helclose ";
+                //echo " hel ".$helmetcharge." helclose ";
         }
         
         //fetch slab required details
@@ -114,14 +140,14 @@ if(isset($_GET['id'])){
                 $gethelslabrow  = $gethelslabres->fetch_assoc();
                 $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );
                 //dev only
-                echo " hel ".$helmetcharge." helclose ";
+                    //echo " hel ".$helmetcharge." helclose ";
             }
 
             //
             $totaldur -= 1440;
             //dev only
                 //echo "test";
-            echo $totalamount." ";
+                //echo $totalamount." ";
         }
         //
         $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
@@ -140,30 +166,23 @@ if(isset($_GET['id'])){
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );
             //dev only
-            echo " hel ".$helmetcharge." helclose ";
-            echo $totalamount." ";
+                // echo " hel ".$helmetcharge." helclose ";
+                // echo $totalamount." ";
         }
 
     }
     
  
-    echo " final amount : ".$totalamount;
-    echo " final helmet amount : ".$helmetcharge;
+    // echo " final amount : ".$totalamount;
+    // echo " final helmet amount : ".$helmetcharge;
 
     $helmetcharge = $helmetcharge - $heladv;
-    echo "removing advance : ".$helmetcharge;
-    
-    
+    // echo "removing advance : ".$helmetcharge;
+    // echo "slab_type : ".$slabId;
 
-    //update transaction 
-    $trnupdatestmt = "UPDATE transaction_master SET check_out = '$time', total_duration = '$ttldurtoupdt', amount = '$totalamount', helmet_amount = '$helmetcharge', out_username = '$UID' WHERE trn_id ='$CID'";
-    mysqli_query($con,$trnupdatestmt);
-    if ($con->query($trnupdatestmt) === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $con->error;
-    }
-
+    //amount ot be paid for display
+    $amountdis = $totalamount + $helmetcharge;
+    
 
 } 
 else {
@@ -172,3 +191,55 @@ else {
 
 
 ?>
+<!-- JS alert display for payment confirmation -->
+<script>
+function ajaxcalll(time, ttldur, amount, helcharge, cid, slabid, slabnm ) {    
+    $.ajax({ 
+        url: 'transaction.php',
+        data: {"time" : time ,"ttldur" : ttldur, "amount" : amount, "helcharge" : helcharge, "cid" : cid, "slabid" : slabid, "slabnm" : slabnm},
+        type: 'POST',
+        success: function() { top.window.location = '../public/scan.php';},
+        error: function (request, error) {alert(" error Please contact vendor "); }
+    });
+}
+
+var t = '<?php echo $time ?>';
+var ttl = '<?php echo $ttldurtoupdt ?>';
+var amt = '<?php echo $totalamount ?>';
+var hel = '<?php echo $helmetcharge ?>';
+var c = '<?php echo $CID ?>';
+var sl = '<?php echo $slabId ?>';
+var snm =  '<?php echo $slabName ?>';
+
+setTimeout(function() {
+    swal({
+        title: 'Total Amount : <?php echo $amountdis ?>',
+        text: 'Parking amount : <?php echo $totalamount ?>\nHelmet charges : <?php echo $helmetcharge ?>',
+        icon: 'warning',
+        buttons: ['Not paid', ' paid '],
+        
+    })
+    .then((willpay) => {
+        if (willpay) {
+        swal({
+            title: 'Amount Paid',
+            text: 'Transaction completed',
+            icon: 'success',
+            button: 'Done!',
+        }).then((paid) => {
+            if(paid) {
+                
+                ajaxcalll(t,ttl,amt,hel,c,sl,snm);
+            }            
+        });
+        } else {
+            top.window.location = "../public/scan.php";
+        }
+    });
+}, 200);
+
+
+
+</script>
+</html>
+

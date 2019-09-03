@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form id='paidform' method="GET">
+  <input type="text" name="paid" value="paid" hidden>
+  <input type="submit" value="Submit" hidden>
+</form> 
+<p id='haha'></p>
+</body>
+</html>
+
 <?php
 echo "<script src='include\sweetalert.min.js'></script>";
 
@@ -19,28 +33,37 @@ date_default_timezone_set('Asia/Kolkata');
     <script type='text/javascript'>
     setTimeout(function() {
         swal({
-            title: 'Are you sure?',
-            text: 'Once deleted, you will not be able to recover this imaginary file!',
+            title: 'time : ".$days."',
+            text: '',
             icon: 'warning',
             buttons: ['Not paid', 'paid'],
             
           })
           .then((willDelete) => {
             if (willDelete) {
-              swal('Poof! Your imaginary file has been deleted!', {
+              swal({
+                title: 'Good job!',
+                text: 'You clicked the button!',
                 icon: 'success',
+                button: 'Aww yiss!',
+              }).then(() => {
+                window.history.pushState( {} , '', '&paid=paid' );
+                window.open('index.php');
               });
+              
             } else {
-              swal('Your imaginary file is safe!');
+              window.open('index.php');
             }
           });
       }, 200);
     
     </script>
     ";
-    if (isset($_POST['submit'])){
+    
+    //echo "<form method='post' id='myForm'><input type='submit' class='submit' id='submit'></form>";
+    if (isset($_GET['paid'])){
         echo $days." days ".$hrs." hrs ".$mins." mins";
     }
-
 ?>
 
+// top.window.location = "transaction.php?time=<?php echo $time ?>&ttldur=<?php echo $ttldurtoupdt ?>&amount=<?php echo $totalamount ?>&helcharge=<?php echo $helmetcharge ?>&cid=<?php echo $CID ?>&slabid=<?php echo $slabId ?>&slabnm=<?php echo $slabName ?>";   
