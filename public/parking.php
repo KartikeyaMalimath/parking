@@ -7,6 +7,9 @@ include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/parkingnav.php');
 $page = "home";
+if(!isset($_SESSION['user']) || $_SESSION['user'] != 'user') {
+    echo "<script>top.window.location = '../function/logout.php'</script>";
+}
 $user = $_SESSION['user'];
 ?>
 
@@ -42,7 +45,7 @@ $user = $_SESSION['user'];
         <div class= "row">
             <div class = "col-sm-6">
                 <!--ticket form-->
-                <div class="card reg" id="userRegCard" style="margin:2vh 7vh 2vh 7vh; padding:5vh 7vh 5vh 7vh;">
+                <div class="card reg" id="userRegCard" style="margin: 2% 6%; padding:5vh 7vh 5vh 7vh;">
                     <form class="frm" method="POST" action="../function/storeticket.php" >
                         <center><h4>Ticket System</h4></center>
                         <div class="form-group">
@@ -106,9 +109,9 @@ $user = $_SESSION['user'];
                 </div>
                 <!--ticket form end-->
             </div>
-            <div class = "col-sm-6" style="background-color:red;">
+            <div class = "col-sm-6">
             <!--ticket display-->
-            trst
+            
             <!--ticket display end-->
             </div>
         </div> 

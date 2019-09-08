@@ -74,7 +74,7 @@ $user = $_SESSION['user'];
     <?php echo $navbar;?>
 
     <script>
-        document.getElementById("pass").classList.add('active');
+        document.getElementById("settings").classList.add('active');
     </script>
     <!--column for registration box-->
     <div class="content">

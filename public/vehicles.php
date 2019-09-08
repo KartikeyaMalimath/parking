@@ -6,6 +6,9 @@ session_start();
 include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/navbar.php');
+if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
+    echo "<script>top.window.location = '../function/logout.php'</script>";
+}
 $page = "home";
 $user = $_SESSION['user'];
 ?>

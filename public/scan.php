@@ -7,6 +7,9 @@ include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/scannav.php');
 $page = "home";
+if(!isset($_SESSION['user']) || $_SESSION['user'] != 'security') {
+    echo "<script>top.window.location = '../function/logout.php'</script>";
+}
 $user = $_SESSION['user'];
 ?>
 
@@ -65,7 +68,6 @@ let scanner = new Instascan.Scanner(
     }
 );
 scanner.addListener('scan', function(content) {
-    alert('User Id: ' + content);
     top.window.location = "../function/amount.php?id="+content;
 });
 Instascan.Camera.getCameras().then(cameras => 

@@ -11,10 +11,17 @@
     <style>
     p {
         margin:0px 5px 0px 5px; 
+        font-size: 12px;
+    }
+    #info {
+        padding : 8px;
+    }
+    td {
+        font-size: 14px;
     }
     </style>
 </head>
-<body style='margin:0px; background-color: red;'>
+<body style='margin:0px;'>
 
     
         
@@ -25,6 +32,7 @@
 session_start();
 
 $UID = $_SESSION['userID'];
+$company = $_SESSION['company'];
 
 include ('../include/db.php');
 include('../include/phpqrcode/qrlib.php');
@@ -56,7 +64,7 @@ if(isset($_POST['submit']))
         $vhtype = mysqli_real_escape_string($con, $_POST["trsbtype"]);  
         $trname = mysqli_real_escape_string($con, $_POST["trcname"]); 
         $trphone = mysqli_real_escape_string($con, $_POST["trphone"]); 
-        if(!empty($_POST['trheladv']) ) {
+        if($_POST['trhelsel'] == 'yes' ) {
             $trhel = mysqli_real_escape_string($con, $_POST["trhel"]); 
             $trheladv = mysqli_real_escape_string($con, $_POST["trheladv"]);
         }
@@ -95,30 +103,54 @@ if(isset($_POST['submit']))
 
             QRcode::png($trnid, $tempDir.'tranQRtemp.png', QR_ECLEVEL_L, 3);
 
+            $comstmt = "SELECT * FROM company_master WHERE company_id = '$company' and flag = 1";
+            $comres = $con->query($comstmt);
+            $comrow = $comres->fetch_assoc();
+
+            $comname = $comrow['owner_name'];
+
             echo "
             <script>printDiv('printmaadu');</script>
-            <div id='printmaadu' style='width:200px; background-color: white;'>
-            ======================
-            <center><h3 style='margin: 5px 5px 5px 5px;'>Company Name</h3></center>
-            ======================
-                <div style='padding:6px;'>
-                    <table>
-                    </tr>
+            <div id='printmaadu' style='width:235px; background-color: white;'>
+            ==========================
+            <center><h4 style='margin: 5px 5px 5px 5px;'>Company Name</h4></center>
+            ==========================
+                <div style='padding:0px;'>
+                <center><img src='../dump/tranQRtemp.png' ></center>
+                    <center><table style='width:95%'>
                         <tr>
-                            <td>No. plate : ".$vhno."<br>Vehicle Type: ".$vhname."</td>
-                            <td><center><img src='../dump/tranQRtemp.png' ></center></td>
-                    </table>
-                    <p>Date : ".$prdate."<br>Time : ".$prtime."</p>
+                            <td>No. plate</td><td> : </td><td>".$vhno."</td> 
+                        </tr>
+                        <tr>
+                            <td>Vehicle Type</td><td> : </td><td>".$vhname."</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Date</td><td> : </td><td>".$prdate."</td>
+                        </tr>
+                        <tr>
+                            <td>Time</td><td> : </td><td>".$prtime."</td>
+                        </tr> 
+                                        
+                    </table></center>
                 </div>
-                ======================
-                <p style='text-align: justify; text-justify: inter-word;'>This is company additional details if required</p>
-                ======================
-
+                ==========================
+                <div id='info'>
+                    <p style='text-align: justify; text-justify: inter-word;'>If vehicle/Helmet is damaged/scarched, 
+                    or valuables lost, we are not responsible for the loss 
+                    <br>
+                    If token is lost bring the original documents of the 
+                    vehicle and any ID proof with a copy of xerox. and Token Number/QR Code is mandatory</p>
+                </div>
+                ==========================
+                <center><p>---Powered By : Fusion Minds---</p></center>
+                
             </div>
 
-            <script>setTimeout(function() {top.window.location = '../public/parking.php'}, 5000);</script>
+            <script>setTimeout(function() {top.window.location = '../public/parking.php'}, 1000);</script>
             </body>
             </html>
+
             ";
             //echo "<script>top.window.location = '../public/parking.php'</script>";
             exit();
@@ -138,6 +170,6 @@ else {
 }
 
 ?>
-
+<!-- <script>setTimeout(function() {top.window.location = '../public/parking.php'}, 5000);</script> -->
         
     

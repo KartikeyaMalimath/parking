@@ -14,6 +14,9 @@ if(isset($_POST["submit"]))
       }  
       else  
       {     
+          //Hard code comapany ID
+          $_SESSION['company'] = 'fm5d7534212edbd';
+
           //prepare timestamp to update last login
             date_default_timezone_set('Asia/Kolkata'); 
             $t=time();

@@ -1,69 +1,64 @@
 <!DOCTYPE html>
+
 <html>
-<body>
+<head>
+    <title>Print Receipt</title>
+    <script type='text/javascript'>
+    
+        // window.print();
+        
+    </script>
+    <style>
+    p {
+        margin:0px 5px 0px 5px; 
+        font-size: 12px;
+    }
+    #info {
+        padding : 8px;
+    }
+    td {
+        font-size: 14px;
+    }
+    </style>
+</head>
+<body style='margin:0px; '>
+<div id='printmaadu' style='width:235px; background-color: white;'>
+==========================
+<center><h4 style='margin: 5px 5px 5px 5px;'>Company Name</h4></center>
+==========================
+    <div style='padding:0px;'>
+    <center><img src='dump/tranQRtemp.png' ></center>
+        <center><table style="width:95%">
+            <!-- <tr>
+                <td>Token No.</td><td> : </td><td>TKT5d6ba43a30ada</td> 
+            </tr> -->
+            <tr>
+                <td>No. plate</td><td> : </td><td>1350</td> 
+            </tr>
+            <tr>
+                <td>Vehicle Type</td><td> : </td><td>Car</td>
+            </tr>
+            
+            <tr>
+                <td>Date</td><td> : </td><td>12-12-2018</td>
+            </tr>
+            <tr>
+                <td>Time</td><td> : </td><td>12:55:59</td>
+            </tr> 
+                             
+        </table></center>
+    </div>
+    ==========================
+    <div id="info">
+        <p style='text-align: justify; text-justify: inter-word;'>If vehicle/Helmet is damaged/scarched, 
+        or valuables lost, we are not responsible for the loss 
+        <br>
+        If token is lost bring the original documents of the 
+        vehicle and any ID proof with a copy of xerox. and Token Number/QR Code is mandatory</p>
+    </div>
+    ==========================
+    <center><p>---Powered By : Fusion Minds---</p></center>
 
-<h2>HTML Forms</h2>
-
-<form id='paidform' method="GET">
-  <input type="text" name="paid" value="paid" hidden>
-  <input type="submit" value="Submit" hidden>
-</form> 
-<p id='haha'></p>
+</div>
 </body>
 </html>
-
-<?php
-echo "<script src='include\sweetalert.min.js'></script>";
-
-date_default_timezone_set('Asia/Kolkata'); 
-    $t=time();
-    $time = date("d-m-Y G:i:s", $t);
-
-    $indate = date("30-08-2019 22:30:00");
-    $outdate = date("01-09-2019 21:00:00");
-
-    $date1 = date_create($indate);
-    $date2 = date_create($outdate);
-    $totaldays = date_diff($date1, $date2);
-    $days = $totaldays->format('%a');
-    $hrs = $totaldays->format('%h');
-    $mins = $totaldays->format('%i');
-
-    echo "
-    <script type='text/javascript'>
-    setTimeout(function() {
-        swal({
-            title: 'time : ".$days."',
-            text: '',
-            icon: 'warning',
-            buttons: ['Not paid', 'paid'],
-            
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-              swal({
-                title: 'Good job!',
-                text: 'You clicked the button!',
-                icon: 'success',
-                button: 'Aww yiss!',
-              }).then(() => {
-                window.history.pushState( {} , '', '&paid=paid' );
-                window.open('index.php');
-              });
-              
-            } else {
-              window.open('index.php');
-            }
-          });
-      }, 200);
-    
-    </script>
-    ";
-    
-    //echo "<form method='post' id='myForm'><input type='submit' class='submit' id='submit'></form>";
-    if (isset($_GET['paid'])){
-        echo $days." days ".$hrs." hrs ".$mins." mins";
-    }
-?>
-
-// top.window.location = "transaction.php?time=<?php echo $time ?>&ttldur=<?php echo $ttldurtoupdt ?>&amount=<?php echo $totalamount ?>&helcharge=<?php echo $helmetcharge ?>&cid=<?php echo $CID ?>&slabid=<?php echo $slabId ?>&slabnm=<?php echo $slabName ?>";   

@@ -106,6 +106,7 @@ if(isset($_GET['id'])){
             $helmetcharge = $gethelslabrow['slab_charges'] * $helmetno;
             //dev only
                 //echo " hel ".$helmetcharge." helclose ";
+                
         }
         
         //fetch slab required details
@@ -116,6 +117,7 @@ if(isset($_GET['id'])){
         //get slab charges
         $slabCharge = $getslabrow['slab_charges'];
         $totalamount = $slabCharge;
+        
     } 
     else if ($totaldur > 1440) {
         //Calculate amount for more than one day
@@ -176,12 +178,20 @@ if(isset($_GET['id'])){
     // echo " final amount : ".$totalamount;
     // echo " final helmet amount : ".$helmetcharge;
 
-    $helmetcharge = $helmetcharge - $heladv;
+    if($helmetno > 0){
+        $helmetcharge = $helmetcharge - $heladv;
+        $amountdis = $totalamount + $helmetcharge;
+    } 
+    else {
+        $amountdis = $totalamount;
+        $helmetcharge = 0;
+    }
+    
     // echo "removing advance : ".$helmetcharge;
     // echo "slab_type : ".$slabId;
 
     //amount ot be paid for display
-    $amountdis = $totalamount + $helmetcharge;
+    
     
 
 } 
