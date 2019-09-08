@@ -13,7 +13,7 @@ include ('../include/db.php');
       }  
       else  
       {  
-            echo "else";
+            //echo "else";
             //create time stamp
             date_default_timezone_set('Asia/Kolkata'); 
             $t=time();

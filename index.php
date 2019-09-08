@@ -5,6 +5,8 @@
 include ('include/db.php');
 include ('include/data.php');
 
+$company = "fm5d7534212edbd"
+
 ?>
 
 <html>
@@ -43,7 +45,7 @@ include ('include/data.php');
             <div>
                 <form class="frm" method="POST" action ="function/login.php">
                     <div class="form-group">
-                        <center><img src="images/logo.png" class="img-rounded logo" alt="Cinque Terre"></center>
+                        <center><img src="images/<?php echo $company ?>.png" class="img-rounded logo" alt="Cinque Terre"></center>
                     </div>
                     <br>
                     <center><h4>Parking Login</h4></center>
