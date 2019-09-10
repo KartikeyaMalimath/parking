@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 
 session_start();
@@ -8,7 +6,7 @@ include ('include/db.php');
 $page = "home";
 $user = $_SESSION['user'];
 ?>
-
+<!DOCTYPE html>
 <html>
 <head>
     <title><?php echo $loginTitle; ?></title>

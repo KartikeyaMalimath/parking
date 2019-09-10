@@ -3,10 +3,10 @@
 //function to register new users
 session_start();
 include ('../include/db.php');
- echo "test";
+ //echo "test";
  if(isset($_POST['submit']))  
  {  
-        echo "submit";
+        //echo "submit";
       if(empty($_POST["username"]) || empty($_POST["password"]))  
       {  
            echo '<script>alert("Both Fields are required")</script>';  
@@ -29,7 +29,6 @@ include ('../include/db.php');
             $idtype = mysqli_real_escape_string($con, $_POST["idtype"]); 
             $idno = mysqli_real_escape_string($con, $_POST["idno"]);
             $empno = mysqli_real_escape_string($con, $_POST["empno"]);  
-            $phone = mysqli_real_escape_string($con, $_POST["empno"]);
             $address = mysqli_real_escape_string($con, $_POST["address"]); 
             $usertype = mysqli_real_escape_string($con, $_POST["usertype"]); 
             //active / inactive
@@ -41,10 +40,10 @@ include ('../include/db.php');
             $query = "INSERT INTO user_master (user_id, uname, password, fullname, id_proof_type, id_number, emp_no, phone, address, type, flag, last_login) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
             $stmt->bind_param('ssssssssssds',$userid, $username, $password, $name, $idtype, $idno, $empno, $phone, $address, $usertype, $flag, $time);
-            echo "line1";
+            //echo "line1";
 
             if ($stmt->execute()) {
-                echo "line2";
+                //echo "line2";
                 echo "<script type='text/javascript'>alert('User Created');</script>";
                 echo "<script>top.window.location = '../public/admin.php'</script>";
                 exit();

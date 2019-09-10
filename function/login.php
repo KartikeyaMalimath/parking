@@ -1,9 +1,11 @@
 <?php
 
-include ('../include/db.php');
 //session
 session_start();
 $_SESSION = array();
+
+include ('../include/db.php');
+
 
 if(isset($_POST["submit"]))  
  {  

@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 
 session_start();
@@ -9,6 +7,8 @@ include ('adminViews/scannav.php');
 $page = "home";
 $user = $_SESSION['user'];
 ?>
+
+<!DOCTYPE html>
 
 <html>
 <head>

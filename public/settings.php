@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 
 session_start();
@@ -12,6 +10,8 @@ if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
 $page = "home";
 $user = $_SESSION['user'];
 ?>
+
+<!DOCTYPE html>
 
 <html>
 <head>

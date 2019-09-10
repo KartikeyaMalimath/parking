@@ -1,6 +1,7 @@
-<!DOCTYPE html>
-
 <?php
+
+session_start();
+$_SESSION = array();
 
 include ('include/db.php');
 include ('include/data.php');
@@ -8,6 +9,7 @@ include ('include/data.php');
 $company = "fm5d7534212edbd"
 
 ?>
+<!DOCTYPE html>
 
 <html>
 <head>

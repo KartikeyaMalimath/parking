@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <?php
 
 session_start();
@@ -13,6 +11,7 @@ $page = "home";
 $user = $_SESSION['user'];
 ?>
 
+<!DOCTYPE html>
 <html>
 <head>
     <title><?php echo $loginTitle; ?></title>

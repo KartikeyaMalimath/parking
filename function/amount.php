@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <head>
     <script src='../include/sweetalert.min.js'></script>
@@ -16,7 +19,6 @@
 
 <?php
 
-session_start();
 include ("../include/db.php");
 
 $UID = $_SESSION['userID'];

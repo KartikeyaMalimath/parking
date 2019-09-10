@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 
 <html>
@@ -27,9 +30,6 @@
         
 
 <?php
-
-//function to register new users
-session_start();
 
 $UID = $_SESSION['userID'];
 $company = $_SESSION['company'];

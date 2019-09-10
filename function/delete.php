@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 //single reusable delete function to deactivate data cells
 
