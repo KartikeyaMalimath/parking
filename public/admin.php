@@ -7,7 +7,7 @@ include ('adminViews/navbar.php');
 if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
-$page = "home";
+$page = "user";
 $user = $_SESSION['user'];
 ?>
 <!DOCTYPE html>
@@ -44,7 +44,7 @@ $user = $_SESSION['user'];
     <?php echo $navbar;?>
 
     <script>
-        document.getElementById("home").classList.add('active');
+        document.getElementById("user").classList.add('active');
     </script>
     <!--column for registration box-->
     <div class="content">

@@ -6,7 +6,8 @@ $navbar =   "<div class='sidebar'>
                 <center><img class='imglogo' src='../images/loginBG.jpg'></center>
                 <center><p style='color: white;'>".$user."</p></center>
                 <a href='../function/logout.php'><i class='fa fa-fw fa-user'></i>Logout</a>
-                <a href='admin.php' id='home' >Users</a>
+                <a href='./' id='home'>Home</a>
+                <a href='admin.php' id='user' >Users</a>
                 <a href='vehicles.php' id = 'vehicles' >Vehicle types</a>
                 <a href='slabs.php' id = 'slabs'>Slabs</a>
                 <a href='pass.php' id = 'pass'>Pass</a>

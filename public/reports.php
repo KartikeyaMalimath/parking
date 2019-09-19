@@ -75,13 +75,24 @@ $user = $_SESSION['user'];
                 
                     <?php
                     while ($row = $result1-> fetch_assoc()) {
+                        if($row['helmet_advance'] == NULL){
+                            $heladv = 0;
+                        } else {
+                            $heladv = $row['helmet_advance'];
+                        }
+                        if($row['helmet_amount'] == NULL){
+                            $hel = 0;
+                        } else {
+                            $hel = $row['helmet_amount'];
+                        }
                         $vhno = $row['vehicle_no'];
                         $vhtype = $row['vehicle_type'];
                         $trin = $row['check_in'];
                         $trout = $row['check_out'];
                         $trdur = round($row['total_duration']/60, 2 );
                         $tramt = $row['amount'];
-                        $trhel = $row['helmet_advance'] + $row['helmet_amount'];
+                        
+                        $trhel = $heladv + $hel;
 
                         //fetch vehicle type
                         $query2 = "SELECT * FROM vehicle_type_master WHERE vtype_id = '$vhtype' ";

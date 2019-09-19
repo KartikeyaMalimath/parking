@@ -6,7 +6,7 @@ $_SESSION = array();
 include ('include/db.php');
 include ('include/data.php');
 
-$company = "fm5d7534212edbd"
+
 
 ?>
 <!DOCTYPE html>

@@ -66,7 +66,7 @@ if(isset($_POST["submit"]))
                           //login
                             //Admin Login
                             if($permission == 'admin') {
-                                echo "<script>top.window.location = '../public/admin.php'</script>";
+                                echo "<script>top.window.location = '../public/'</script>";
 
                             }
                             //User Login (Ticket Vendor)
