@@ -58,7 +58,7 @@ if(isset($_POST['submit']))
         $prtime = date("G:i:s",$t);
         //Create unique User Id
         $prefix = "TKT";
-        $trnid = uniqid($prefix);
+        //$trnid = uniqid($prefix);
 
         $vhno = mysqli_real_escape_string($con, $_POST["trnvhno"]);  
         $vhtype = mysqli_real_escape_string($con, $_POST["trsbtype"]);  
@@ -66,10 +66,17 @@ if(isset($_POST['submit']))
         $trphone = mysqli_real_escape_string($con, $_POST["trphone"]); 
         if($_POST['trhelsel'] == 'yes' ) {
             $trhel = mysqli_real_escape_string($con, $_POST["trhel"]); 
-            $trheladv = mysqli_real_escape_string($con, $_POST["trheladv"]);
+            if(!empty($_POST['trheladv'])) {
+                $trheladv = mysqli_real_escape_string($con, $_POST["trheladv"]);
+            }
+            else {
+                $trheladv = '0';
+            }
         }
-        else
+        else {
+            $trhel = '0';
             $trheladv = '0';
+        }
         //active / inactive
         $flag = 1;
 
@@ -83,20 +90,23 @@ if(isset($_POST['submit']))
         $vhslabid = $slbrow['slab_id'];
         //echo $vhslabname;
         //Inserting to database
-        $query = "INSERT INTO transaction_master (trn_id, vehicle_no, vehicle_type, customer_name, customer_phone, check_in, slab_name, slab_id, helmet, helmet_advance, in_username) VALUES(?,?,?,?,?,?,?,?,?,?,?)";  
+        $trnid = "001";
+        $query = "INSERT INTO transaction_master (vehicle_no, vehicle_type, customer_name, customer_phone, check_in, slab_name, slab_id, helmet, helmet_advance, in_username) VALUES(?,?,?,?,?,?,?,?,?,?)";  
         $stmt = $con->prepare($query);
-        $stmt->bind_param('sssssssssss', $trnid, $vhno, $vhtype, $trname, $trphone, $chkintime, $vhslabname, $vhslabid, $trhel, $trheladv, $UID);
+        $stmt->bind_param('ssssssssss', $vhno, $vhtype, $trname, $trphone, $chkintime, $vhslabname, $vhslabid, $trhel, $trheladv, $UID);
         //echo "line1";
 
         if ($stmt->execute()) {
+            //Fetch back transaction ID
+            $trnid = $con->insert_id;
+
             //echo "line2";
             $vhstmt = "SELECT * FROM vehicle_type_master WHERE vtype_id = '$vhtype'";
             $vhres = $con->query($vhstmt);
             $vhrow = $vhres->fetch_assoc();
             //vehicle type
-            $vhname = $vhrow['vtype_name'];
+            $vhname = $vhrow['vtype_name'];           
 
-            
             //IF successful generate QR code
             
             $tempDir = '../dump/';

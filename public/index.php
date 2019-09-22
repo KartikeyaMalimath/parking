@@ -122,6 +122,7 @@ $res1 = $con->query($stmt1);
             <!--Column 1-->
             <div class="card chart-card">
                 <div class="card-container">
+                <center><h4>Average Vehicle Density</h4></center>
                     <div class="piechart" id="piechart"></div>
                 </div>
             </div>
@@ -131,6 +132,7 @@ $res1 = $con->query($stmt1);
             <!--Column 2-->
             <div class="card chart-card">
                 <div class="card-container">
+                    <center><h4>Vehicles Parked</h4></center>
                     <div class="piechart2" id="piechart2"></div>
                 </div>
             </div>

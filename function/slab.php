@@ -3,7 +3,7 @@
 //function to register new slabs
 session_start();
 
-echo "<script src='../include\sweetalert.min.js'></script>";
+echo "<script src='../include/sweetalert.min.js'></script>";
 
 $UID = $_SESSION['userID'];
 
@@ -36,24 +36,22 @@ include ('../include/db.php');
             
             //active / inactive
             $flag = 1;
-            
+            $active = 1;
             //password Hashing 
             //Inserting to database
-            $query = "INSERT INTO slab_master (slab_id, slab_name, vehicle_type, slab_from, slab_to, slab_charges, flag, created_date, created_by) VALUES(?,?,?,?,?,?,?,?,?)";  
+            $query = "INSERT INTO slab_master (slab_id, slab_name, vehicle_type, slab_from, slab_to, slab_charges, flag, created_date, created_by, active) VALUES(?,?,?,?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssssssdss',$slabid, $sbname, $sbtype, $sbfrom, $sbto, $sbcharges, $flag, $time, $UID);
+            $stmt->bind_param('ssssssdssd',$slabid, $sbname, $sbtype, $sbfrom, $sbto, $sbcharges, $flag, $time, $UID, $active);
             echo "line1";
 
             if ($stmt->execute()) {
-                echo "line2";
                 echo "<script type='text/javascript'>
-                        swal({
-                            title: 'Good job!',
-                            text: 'You clicked the button!',
-                            icon: 'success',
-                            button: 'Aww yiss!',
-                        });
-                        top.window.location = '../public/slabs.php'
+                swal({
+                    title: 'Slab Created',
+                    icon: 'success',})
+                .then(() => {
+                    window.location.href = ('../public/slabs.php');
+                });
                 </script>";
                 exit();
             }  else {

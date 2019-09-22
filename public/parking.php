@@ -50,7 +50,7 @@ $user = $_SESSION['user'];
                         <center><h4>Ticket System</h4></center>
                         <div class="form-group">
                             <label for="trnvhno">Vehicle Number</label>
-                            <input type="text" class="form-control" name="trnvhno" id="trnvhno" tabindex="1" required>
+                            <input type="text" class="form-control" name="trnvhno" id="trnvhno" tabindex="1" required autofocus>
                         </div> 
                         <div class="form-group">
                             <label for="trsbtype">Vehicle type</label>

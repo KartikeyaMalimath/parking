@@ -62,6 +62,7 @@ $user = $_SESSION['user'];
         <table id="transaction" class="table table-striped table-bordered" style="background-color: white; margin: 5vh auto;">
             <thead>
                 <tr>
+                    <th>Transaction</th>
                     <th>Vehicle Number</th>
                     <th>Vehicle Type</th>
                     <th>Check-In</th>
@@ -85,6 +86,12 @@ $user = $_SESSION['user'];
                         } else {
                             $hel = $row['helmet_amount'];
                         }
+                        //transaction id
+                        $trnid = $row['trn_id'];
+                        $trn = str_pad($trnid, 9, 0, STR_PAD_LEFT);
+                        $trn = str_split($trn, 3);
+                        $trn = implode(",", $trn);
+
                         $vhno = $row['vehicle_no'];
                         $vhtype = $row['vehicle_type'];
                         $trin = $row['check_in'];
@@ -101,7 +108,8 @@ $user = $_SESSION['user'];
 
                         $vhcle = $row2['vtype_name'];
 
-                        echo "<tr>  <td>".$vhno."</td>
+                        echo "<tr>  <td>".$trn."</td>
+                                    <td>".$vhno."</td>
                                     <td>".$vhcle."</td>
                                     <td>".$trin."</td>
                                     <td>".$trout."</td>

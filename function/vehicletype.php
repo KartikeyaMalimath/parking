@@ -2,6 +2,8 @@
 
 session_start();
 
+echo "<script src='../include/sweetalert.min.js'></script>";
+
 $UID = $_SESSION['userID'];
 
 include ('../include/db.php');
@@ -31,17 +33,23 @@ include ('../include/db.php');
             
             //active / inactive
             $flag = 1;
-            
+            $active = 1;
             //Inserting to database
-            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by, shortcut) VALUES(?,?,?,?,?,?)";  
+            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by, shortcut, active) VALUES(?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssdsss',$vhid,$vhtype,$flag,$time,$UID,$shkey);
+            $stmt->bind_param('ssdsssd',$vhid,$vhtype,$flag,$time,$UID,$shkey,$active);
             echo "line1";
 
             if ($stmt->execute()) {
-                echo "line2";
-                echo "<script type='text/javascript'>alert('Vehicle Type Created');</script>";
-                echo "<script>top.window.location = '../public/vehicles.php'</script>";
+                echo "<script type='text/javascript'>
+                    swal({
+                    title: 'Vehicle type Created!',
+                    icon: 'success',
+                    }).then((value) => {
+                        top.window.location = '../public/vehicles.php';
+                    });
+                        
+                </script>";
                 exit();
             }  else {
                 

@@ -26,15 +26,8 @@
 <?php
 include ('include/db.php');
 
-$stmt1 = "SELECT check_out, vehicle_type, count(vehicle_type) as countvhtyp FROM transaction_master WHERE check_out IS NULL GROUP BY vehicle_type ORDER BY COUNT(vehicle_type) DESC";
-$res1 = $con->query($stmt1);
+$num = 1254;
+$padded_num = str_pad($num, 9, 0, STR_PAD_LEFT);
+echo  $padded_num;
 
-while ($row1 = $res1->fetch_assoc()) {
-    // if($row1['check_out'] == NULL ) {
-        $vtypetemp = $row1['vehicle_type'];
-        $gaadi = "SELECT * FROM vehicle_type_master WHERE vtype_id = '$vtypetemp'";
-        $gaadires = $con->query($gaadi);
-        $gaadirow = $gaadires->fetch_assoc();
-        echo ",[ '{$gaadirow['vtype_name']}', {$row1['countvhtyp']} ]";
-    // }
-} ?>
+?>
