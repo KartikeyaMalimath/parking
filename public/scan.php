@@ -5,7 +5,7 @@ include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/scannav.php');
 $page = "home";
-if(!isset($_SESSION['user']) || $_SESSION['user'] != 'security') {
+if(!isset($_SESSION['user']) || $_SESSION['access'] != 'security') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $user = $_SESSION['user'];
@@ -24,11 +24,17 @@ $user = $_SESSION['user'];
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../include/instascan.min.js" ></script>
 
-    <script>
-        
+    <style>
 
+    .card {
+        margin-top: 2vh; 
+        padding : 2vh; 
+        width: 100%; 
+        color : white;
+
+    }
         
-    </script>
+    </style>
     
 </head>
 <!--Body of the Index page-->
@@ -44,11 +50,17 @@ $user = $_SESSION['user'];
     <!--column for registration box-->
     <div class="content">
         <div class= "row">
-            <div class = "col-sm-6" style="background-color:black;" >
-                <video id="preview" style="width:100%; height: auto;"></video>
-                <audio id="myAudio">
-                    <source src="../include/beep-02.wav" type="audio/wav">
-                </audio>
+            <div class = "col-sm-6">
+                <div class="card reg" >
+                    <div class = "scan-col" >
+                        <video id="preview" style="width:100%; height: auto;"></video>
+                        <audio id="myAudio">
+                            <source src="../include/beep-02.wav" type="audio/wav">
+                        </audio>
+                    </div>
+                    <hr>
+                    <h5><center>Scan Ticket QR Code</center></h5>
+                </div>
             </div>
             <div class = "col-sm-6" >
             <!--Registration form-->
@@ -68,7 +80,8 @@ let scanner = new Instascan.Scanner(
     }
 );
 scanner.addListener('scan', function(content) {
-    top.window.location = "../function/amount.php?id="+content;
+    //top.window.location = "../function/amount.php?id="+content;
+    alert(content);
 });
 Instascan.Camera.getCameras().then(cameras => 
 {

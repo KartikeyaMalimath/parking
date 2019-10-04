@@ -4,11 +4,12 @@ session_start();
 include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/navbar.php');
-if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
+if(!isset($_SESSION['user']) || $_SESSION['access'] != 'admin') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $page = "home";
 $user = $_SESSION['user'];
+$company = $_SESSION['company'];
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +90,7 @@ $user = $_SESSION['user'];
                     <h4 style="text-align : center"><b>GST Details</b></h4> 
                     <hr>
                     <?php 
-                        $gststmt = "SELECT gst_no, cgst, sgst FROM company_master WHERE flag = '1' AND company_id = 'fm5d7534212edbd'";
+                        $gststmt = "SELECT gst_no, cgst, sgst FROM company_master WHERE flag = 1 AND company_id = '$company'";
                         $gstres = $con->query($gststmt);
                         $gstrow = $gstres->fetch_assoc();
 
@@ -133,7 +134,7 @@ $user = $_SESSION['user'];
             <!--Column 2-->
             <div class="card" style="width : 90%">
                 <div class="card-container"><center>
-                        asffas             
+                        Empty Card            
                 </div>
             </div>
             <!--Column 2 end-->
@@ -142,7 +143,7 @@ $user = $_SESSION['user'];
             <!--Column 3-->
             <div class="card" style="width : 90%">
                 <div class="card-container">
-                    dffd                    
+                    empty card                   
                 </div>
             </div>
             <!--Column 3 end-->

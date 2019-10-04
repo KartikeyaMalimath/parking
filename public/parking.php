@@ -5,7 +5,7 @@ include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/parkingnav.php');
 $page = "home";
-if(!isset($_SESSION['user']) || $_SESSION['user'] != 'user') {
+if(!isset($_SESSION['user']) || $_SESSION['access'] != 'user') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $user = $_SESSION['user'];
@@ -23,11 +23,20 @@ $user = $_SESSION['user'];
     <script src="../bootstrap-4.3.1-dist/js/tether.min.js"></script>
     <script src="../bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
     <script src="../include/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="../include/instascan.min.js" ></script>
 
-    <script>
+
+    <style>
+
+    .card {
+        margin-top: 15vh; 
+        padding : 2vh; 
+        width: 90%;
+        color : white;
+
+    }
         
-        
-    </script>
+    </style>
     
 </head>
 <!--Body of the Index page-->
@@ -57,13 +66,13 @@ $user = $_SESSION['user'];
                             <select class="form-control" id="trsbtype" name="trsbtype" tabindex="2" required>
                                 <?php 
 
-                                    $query1 = "SELECT * FROM slab_master where flag = '1'";
+                                    $query1 = "SELECT * ,count(vehicle_type) as countvhtyp FROM slab_master where flag = 1 AND active = 1 AND vehicle_type != 'helmet' GROUP BY vehicle_type ORDER BY COUNT(vehicle_type) DESC";
                                     $result1 = $con->query($query1);
 
                                     if($result1->num_rows > 0) {
                                         while($row = $result1-> fetch_assoc()) {
                                             $vid = $row['vehicle_type'];
-                                            $forshort = "SELECT * FROM vehicle_type_master where flag = '1' AND vtype_id = '$vid'";
+                                            $forshort = "SELECT * FROM vehicle_type_master where flag = 1 AND active = 1 AND vtype_id = '$vid'";
                                             $shortres = $con->query($forshort);
                                             $shortrow = $shortres->fetch_assoc();
 
@@ -111,7 +120,16 @@ $user = $_SESSION['user'];
             </div>
             <div class = "col-sm-6">
             <!--ticket display-->
-            
+                <div class="card reg" >
+                    <div class = "scan-col" >
+                        <video id="preview" style="width:100%; height: auto;"></video>
+                        <audio id="myAudio">
+                            <source src="../include/beep-02.wav" type="audio/wav">
+                        </audio>
+                    </div>
+                    <hr>
+                    <h5><center>Scan Ticket QR Code</center></h5>
+                </div>
             <!--ticket display end-->
             </div>
         </div> 
@@ -171,6 +189,33 @@ function runsubmit(e){
     }
 }
 
+let scanner = new Instascan.Scanner(
+    {
+        video: document.getElementById('preview'), mirror:false
+    }
+);
+scanner.addListener('scan', function(content) {
+    //top.window.location = "../function/amount.php?id="+content;
+    alert(content);s
+});
+Instascan.Camera.getCameras().then(cameras => 
+{
+    if(cameras.length == 1){
+        scanner.start(cameras[0]);
+    }
+    else if(cameras.length == 2) {
+        scanner.start(cameras[1]);
+    }
+    else {
+        console.error("Error scanning");
+    }
+});
+
+var aud = document.getElementById("myAudio"); 
+
+function playAudio() { 
+  audio.play(); 
+}
 
 </script>
 

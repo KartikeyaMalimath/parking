@@ -97,12 +97,12 @@ if(isset($_GET['id'])){
         //calculate amount for less than a day
         //fetch slab details
         //echo $durinhrs;
-        $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+        $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
         $getslabres = $con->query($getslab);
         $getslabrow  = $getslabres->fetch_assoc();
         //helmet charges if present
         if ($helmetno > 0) {
-            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
             $gethelslabres = $con->query($gethelslab);
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $gethelslabrow['slab_charges'] * $helmetno;
@@ -127,7 +127,7 @@ if(isset($_GET['id'])){
         $helmetcharge = 0;
         while($totaldur > 1440) {
             //fetch slab details
-            $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND (slab_to * 60) = 1440";
+            $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND active = 1 AND (slab_to * 60) = 1440";
             $getslabres = $con->query($getslab);
             $getslabrow  = $getslabres->fetch_assoc();
             //fetch slab required details
@@ -139,7 +139,7 @@ if(isset($_GET['id'])){
 
             //helmet if present for multiple days
             if ($helmetno > 0) {
-                $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND (slab_to * 60) = 1440";
+                $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_to * 60) = 1440";
                 $gethelslabres = $con->query($gethelslab);
                 $gethelslabrow  = $gethelslabres->fetch_assoc();
                 $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );
@@ -154,7 +154,7 @@ if(isset($_GET['id'])){
                 //echo $totalamount." ";
         }
         //
-        $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+        $getslab = "SELECT * FROM slab_master WHERE vehicle_type = '$vhtype' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
         $getslabres = $con->query($getslab);
         $getslabrow  = $getslabres->fetch_assoc();
 
@@ -165,7 +165,7 @@ if(isset($_GET['id'])){
         
 
         if ($helmetno > 0) {
-            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
             $gethelslabres = $con->query($gethelslab);
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );

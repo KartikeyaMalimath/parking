@@ -26,7 +26,7 @@ if(isset($_POST["submit"]))
 
            $username = mysqli_real_escape_string($con, $_POST["username"]);  
            $password = mysqli_real_escape_string($con, $_POST["password"]);  
-           $query = "SELECT * FROM user_master WHERE uname = '$username'";  
+           $query = "SELECT * FROM user_master WHERE uname = '$username' AND flag = 1 AND active = 1";  
            $result = mysqli_query($con, $query);  
            if(mysqli_num_rows($result) > 0)  
            {  
@@ -36,7 +36,7 @@ if(isset($_POST["submit"]))
                      if(password_verify($password, $row["password"]))  
                      {  
                           //return true;   
-                          $sqql = "SELECT * from user_master where uname = '$username'";
+                          $sqql = "SELECT * from user_master where uname = '$username' AND active = 1 AND flag = 1";
                           $result3 = $con->query($sqql);
                           if (!$result3) {
                               trigger_error('Invalid query: '.$con->error);
@@ -70,28 +70,36 @@ if(isset($_POST["submit"]))
 
                             }
                             //User Login (Ticket Vendor)
-                            else if($permission == 'user')
+                            else if($permission == 'user') {
                                 echo "<script>top.window.location = '../public/parking.php'</script>";
+                            }
                             //Security Login (Ticket Checkout)
-                            else if($permission == 'security')
+                            else if($permission == 'security') {
                                 echo "<script>top.window.location = '../public/scan.php'</script>";
+                            } else {
+                                echo "<script>alert('Invalid permission');</script>";
+                            }
+                        } 
+                        else {
+                            echo "<script>alert('User error');</script>";
                         }
                      }  
                      else  
                      {  
                           //return false;  
-                          
+                          echo "<script>alert('Invalid password');</script>";
                           echo "<script>top.window.location = '../index.php'</script>";  
                      }  
                 }  
            }  
            else  
            {  
-                
-                echo "<script>top.window.location = '../index.php'</script>";    
+               echo "<script>alert('User Doesnot exsist');</script>";
+               echo "<script>top.window.location = '../index.php'</script>";    
            }  
       }  
  }  else {
+    echo "<script>alert('Everything invlid');</script>";
      echo "<script>top.window.location = '../'</script>";
  }
  ?>  

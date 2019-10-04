@@ -33,13 +33,13 @@ include ('../include/db.php');
             $usertype = mysqli_real_escape_string($con, $_POST["usertype"]); 
             //active / inactive
             $flag = 1;
-            
+            $active = 1;
             //password Hashing
             $password = password_hash($password, PASSWORD_DEFAULT);  
             //Inserting to database
-            $query = "INSERT INTO user_master (user_id, uname, password, fullname, id_proof_type, id_number, emp_no, phone, address, type, flag, last_login) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";  
+            $query = "INSERT INTO user_master (user_id, uname, password, fullname, id_proof_type, id_number, emp_no, phone, address, type, flag, last_login, active) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssssssssssds',$userid, $username, $password, $name, $idtype, $idno, $empno, $phone, $address, $usertype, $flag, $time);
+            $stmt->bind_param('ssssssssssdsd',$userid, $username, $password, $name, $idtype, $idno, $empno, $phone, $address, $usertype, $flag, $time, $active);
             //echo "line1";
 
             if ($stmt->execute()) {

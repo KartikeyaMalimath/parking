@@ -10,7 +10,7 @@ if(!isset($_SESSION['user'])) {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $page = "home";
-$user = $_SESSION['user'];
+$user = $_SESSION['access'];
 ?>
 <!DOCTYPE html>
 <html>

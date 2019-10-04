@@ -8,7 +8,7 @@ date_default_timezone_set('Asia/Kolkata');
 $t=time();
 $time = date("d-m-Y G:i:s", $t);
 
-
+//vehicle types deactivate
 if(isset($_GET['vhinactive'])){
     $vhid = $_GET['vhinactive'];
 
@@ -16,12 +16,16 @@ if(isset($_GET['vhinactive'])){
     mysqli_query($vhstmt);
     if($con->query($vhstmt) === TRUE) {
         echo "Deactivated successfully";
+        //if vehicle deactivated then deactivate slab too
+        $sbstmt = "UPDATE slab_master SET active = 0, created_date = '$time' WHERE vehicle_type = '$vhid'";
+        mysqli_query($sbstmt);
+        $con->query($sbstmt);
     }
     else {
         echo "Error deactivating";
     }
 }
-
+//user deactivate
 if(isset($_GET['userinactive'])){
     $usrid = $_GET['userinactive'];
 
@@ -34,7 +38,7 @@ if(isset($_GET['userinactive'])){
         echo "Error deactivating";
     }
 }
-
+//slab deactivate
 if(isset($_GET['sbinactive'])){
     $sbid = $_GET['sbinactive'];
 

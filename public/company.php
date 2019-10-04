@@ -4,7 +4,7 @@ session_start();
 include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/navbar.php');
-if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
+if(!isset($_SESSION['user']) || $_SESSION['access'] != 'admin') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $page = "home";
@@ -48,8 +48,9 @@ $user = $_SESSION['user'];
 </head>
 <!-- fetch company details -->
 <?php
+    $company = $_SESSION['company'];
 
-    $query1 = "SELECT * FROM company_master where flag = '1' AND company_id = 'fm5d7534212edbd' ";
+    $query1 = "SELECT * FROM company_master where flag = '1' AND company_id = '$company' ";
     $result1 = $con->query($query1);
     $row = $result1-> fetch_assoc();
 
@@ -79,7 +80,7 @@ $user = $_SESSION['user'];
     <div class= "row">
         <div class = "col-sm-6" >
             <div class="card">
-                <img src="../images/fm5d7534212edbd.png" alt="Avatar" style="width:100%">
+                <img src="../images/<?php echo $company.".png"; ?>" alt="Avatar" style="width:100%">
                 <hr>
                 <div class="container">
                     <center><h4><b><?php echo $coown; ?></b></h4> 

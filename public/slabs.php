@@ -4,7 +4,7 @@ session_start();
 include ('../include/db.php');
 include ('../include/data.php');
 include ('adminViews/navbar.php');
-if(!isset($_SESSION['user']) || $_SESSION['user'] != 'admin') {
+if(!isset($_SESSION['user']) || $_SESSION['access'] != 'admin') {
     echo "<script>top.window.location = '../function/logout.php'</script>";
 }
 $page = "home";
@@ -127,8 +127,14 @@ $user = $_SESSION['user'];
                                                 <td>{$vtypeout['vtype_name']}</td>
                                                 <td>{$row['slab_from']} hr</td>
                                                 <td>{$row['slab_to']} hr</td>
-                                                <td>{$row['slab_charges']} Rs.</td>
-                                                <td><button class = 'btn btn-info' style='width: 100%;' type='button' id= ".$sid." onclick='activate(this.id)'>Activate</button></td>
+                                                <td>{$row['slab_charges']} Rs.</td>";
+                                                if($vtypeout['active'] == 0 && $row['vehicle_type'] != 'helmet') {
+                                                    echo "<td><button class = 'btn btn-default' style='width: 100%;' type='button' id= ".$sid."  data-toggle='tooltip' data-placement='top' title='Activate Vehicle!'>Activate</button></td>";
+                                                } else {
+                                                    echo "<td><button class = 'btn btn-info' style='width: 100%;' type='button' id= ".$sid." onclick='activate(this.id)'>Activate</button></td>";
+                                                }
+                                                
+                                                echo "
                                                 <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$sid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
@@ -388,6 +394,10 @@ userfrm.submit(function(e) {
         }
     });
 
+});
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
 });
 
 </script>
