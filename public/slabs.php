@@ -170,7 +170,7 @@ $user = $_SESSION['user'];
 
                                 }  
                             ?>
-                            <option value="helmet">Helmet</option>
+                            <!-- <option value="helmet">Helmet</option> -->
                         </select>
                     </div>
                     <div class="form-group">
@@ -235,11 +235,11 @@ $user = $_SESSION['user'];
                                 }
 
                             }  
-                            if ($editrow['vehicle_type'] == "helmet") {
-                                echo "<option value='helmet' selected>Helmet</option>";
-                            } else {
-                                echo "<option value='helmet'>Helmet</option>";
-                            }
+                            // if ($editrow['vehicle_type'] == "helmet") {
+                            //     echo "<option value='helmet' selected>Helmet</option>";
+                            // } else {
+                            //     echo "<option value='helmet'>Helmet</option>";
+                            // }
                                 echo "
                             </select>
                         </div>

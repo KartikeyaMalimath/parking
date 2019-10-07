@@ -49,7 +49,7 @@ $user = $_SESSION['user'];
                         <tr>
                         <th>Vehicle Type</th>
                         <th>Shortcut Key</th>
-                        <th>Updated On</th>
+                        <th>GST</th>
                         <th>Deactivate</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -66,11 +66,17 @@ $user = $_SESSION['user'];
                                     $vhid = $row['vtype_id'];
                                     $temp0 = $row['created_date'];
                                     $createddate = strtotime($temp0);
+                                    $gstapp = $row['gst_applicable'];
                                     echo   "<tr>
                                                 <td>{$row['vtype_name']}</td>
-                                                <td>{$row['shortcut']}</td>
-                                                <td>".date('d/m/Y',$createddate)."</td>
-                                                <td><button class = 'btn btn-info' style='width: 100%; color:white;' id= ".$vhid." onclick = 'deactivate(this.id)'>Deactivate</button></td>
+                                                <td>{$row['shortcut']}</td>";
+                                                if($gstapp == 1){
+                                                    echo "<td>Yes</td>";
+                                                } else {
+                                                    echo "<td>No</td>";
+                                                }                                            
+                                                echo 
+                                                "<td><button class = 'btn btn-info' style='width: 100%; color:white;' id= ".$vhid." onclick = 'deactivate(this.id)'>Deactivate</button></td>
                                                 <td><a href='./vehicles.php?vhedit={$vhid}' class = 'btn btn-success' style='width: 100%; color : white; font-size : 12px;' id= ".$vhid.">Edit</a></td>                                                
                                                 <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$vhid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
@@ -89,7 +95,7 @@ $user = $_SESSION['user'];
                         <tr>
                         <th>Vehicle Type</th>
                         <th>Shortcut Key</th>
-                        <th>Updated on</th>
+                        <th>GST</th>
                         <th>Activate</th>
                         <th>Delete</th>
                         </tr>
@@ -105,11 +111,17 @@ $user = $_SESSION['user'];
                                     $vhid = $row['vtype_id'];
                                     $temp0 = $row['created_date'];
                                     $createddate = strtotime($temp0);
+                                    $gstapp = $row['gst_applicable'];
                                     echo   "<tr>
                                                 <td>{$row['vtype_name']}</td>
-                                                <td>{$row['shortcut']}</td>
-                                                <td>".date('d/m/Y',$createddate)."</td>
-                                                <td><button class = 'btn btn-info' style='width: 100%; color:white' id= ".$vhid." onclick='activate(this.id)'>Activate</button</td>
+                                                <td>{$row['shortcut']}</td>";
+                                                if($gstapp == 1){
+                                                    echo "<td>Yes</td>";
+                                                } else {
+                                                    echo "<td>No</td>";
+                                                } 
+                                                echo
+                                                "<td><button class = 'btn btn-info' style='width: 100%; color:white' id= ".$vhid." onclick='activate(this.id)'>Activate</button</td>
                                                 <td><button class = 'btn btn-danger' style='width: 100%;' type='button' id= ".$vhid." onclick='del(this.id)'>Delete</button></td>
                                             </tr>";
                                 }
@@ -132,8 +144,13 @@ $user = $_SESSION['user'];
                         <label for="skey">Shortcut Key</label>
                         <input type="text" class="form-control" name="skey" id="skey" placeholder = "eg: s ,b ,a.."required>
                     </div>    
+                    <label for="gstapp">GST Applicable</label>
+                    <select class="form-control" id="gstapp" name="gstapp" required>
+                        <option value = "1">Yes</option>
+                        <option value = "0">No</option>
+                    </select>
                     
-                    <br>
+                    <br><br>
                         
                     <div class="form-group">
                         <input type="submit" class="form-control" name="submit" id="submit" value="submit">
@@ -166,7 +183,11 @@ $user = $_SESSION['user'];
                             <label for='skey'>Shortcut Key</label>
                             <input type='text' class='form-control' name='skey' id='skey' value = {$editrow['shortcut']} required>
                         </div>    
-                        
+                        <label for='gstapp'>GST Applicable</label>
+                        <select class='form-control' id='gstapp' name='gstapp' required>
+                            <option value = '1'>Yes</option>
+                            <option value = '0'>No</option>
+                        </select>
                         <br>
                             
                         <div class='form-group'>

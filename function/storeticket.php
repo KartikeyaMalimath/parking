@@ -64,8 +64,9 @@ if(isset($_POST['submit']))
         $vhtype = mysqli_real_escape_string($con, $_POST["trsbtype"]);  
         $trname = mysqli_real_escape_string($con, $_POST["trcname"]); 
         $trphone = mysqli_real_escape_string($con, $_POST["trphone"]); 
-        if($_POST['trhelsel'] == 'yes' ) {
+        if($_POST['trhelsel'] != 'no' ) {
             $trhel = mysqli_real_escape_string($con, $_POST["trhel"]); 
+            $trhelid = $_POST['trhelsel'];
             if(!empty($_POST['trheladv'])) {
                 $trheladv = mysqli_real_escape_string($con, $_POST["trheladv"]);
             }
@@ -91,9 +92,9 @@ if(isset($_POST['submit']))
         //echo $vhslabname;
         //Inserting to database
         $trnid = "001";
-        $query = "INSERT INTO transaction_master (vehicle_no, vehicle_type, customer_name, customer_phone, check_in, slab_name, slab_id, helmet, helmet_advance, in_username) VALUES(?,?,?,?,?,?,?,?,?,?)";  
+        $query = "INSERT INTO transaction_master (vehicle_no, vehicle_type, customer_name, customer_phone, check_in, slab_name, slab_id, helmet_id, helmet, helmet_advance, in_username) VALUES(?,?,?,?,?,?,?,?,?,?,?)";  
         $stmt = $con->prepare($query);
-        $stmt->bind_param('ssssssssss', $vhno, $vhtype, $trname, $trphone, $chkintime, $vhslabname, $vhslabid, $trhel, $trheladv, $UID);
+        $stmt->bind_param('sssssssssss', $vhno, $vhtype, $trname, $trphone, $chkintime, $vhslabname, $vhslabid, $trhelid, $trhel, $trheladv, $UID);
         //echo "line1";
 
         if ($stmt->execute()) {

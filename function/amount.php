@@ -1,5 +1,6 @@
 <?php
     session_start();
+    $permission = $_SESSION['access'];
 ?>
 <!DOCTYPE html>
 <head>
@@ -12,6 +13,10 @@
 
 <h2 id="h2">Checkout confirm</h2>
 
+<script type="text/javascript">
+var access = '<?php echo $permission; ?>';
+console.log(access);
+</script>
 
 </body>
 
@@ -23,6 +28,7 @@ include ("../include/db.php");
 
 $UID = $_SESSION['userID'];
 
+$com = $_SESSION['company'];
 if(isset($_GET['id'])){
     $CID = $_GET['id'];
 
@@ -44,14 +50,15 @@ if(isset($_GET['id'])){
     //check Helmet
     $helmetno = 0;
 
+    $helid = $trnrow['helmet_id'];
+
     $helmetno = $helmetno + $trnrow['helmet'];
     $heladv = $trnrow['helmet_advance'];
-    
     //echo $helmetno;
 
     //check amount paid or not
     $checkamount = $trnrow['amount'];
-    if ($checkamount != NULL) {
+    if ($checkamount != '0') {
         echo "<script type='text/javascript'>
             swal({
                 title: 'Amount Already Paid!',
@@ -59,7 +66,13 @@ if(isset($_GET['id'])){
                 icon: 'success',
                 button: 'Continue!',
             }).then(() => {
-                top.window.location = '../public/scan.php';       
+                if(access == 'user'){
+                    top.window.location = '../public/parking.php';  
+                } else if(access == 'security') {
+                    top.window.location = '../public/scan.php';  
+                } else {
+                    top.window.location = '../';
+                }
             });
         </script>
         ";
@@ -102,12 +115,12 @@ if(isset($_GET['id'])){
         $getslabrow  = $getslabres->fetch_assoc();
         //helmet charges if present
         if ($helmetno > 0) {
-            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = '$helid' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
             $gethelslabres = $con->query($gethelslab);
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $gethelslabrow['slab_charges'] * $helmetno;
             //dev only
-                //echo " hel ".$helmetcharge." helclose ";
+                echo " hel ".$helmetcharge." helclose ";
                 
         }
         
@@ -139,7 +152,7 @@ if(isset($_GET['id'])){
 
             //helmet if present for multiple days
             if ($helmetno > 0) {
-                $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_to * 60) = 1440";
+                $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = '$helid' AND flag = 1 AND active = 1 AND (slab_to * 60) = 1440";
                 $gethelslabres = $con->query($gethelslab);
                 $gethelslabrow  = $gethelslabres->fetch_assoc();
                 $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );
@@ -165,7 +178,7 @@ if(isset($_GET['id'])){
         
 
         if ($helmetno > 0) {
-            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = 'helmet' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
+            $gethelslab = "SELECT * FROM slab_master WHERE vehicle_type = '$helid' AND flag = 1 AND active = 1 AND (slab_from * 60) < $totaldur AND (slab_to * 60) >= $totaldur";
             $gethelslabres = $con->query($gethelslab);
             $gethelslabrow  = $gethelslabres->fetch_assoc();
             $helmetcharge = $helmetcharge + ( $gethelslabrow['slab_charges'] * $helmetno );
@@ -183,6 +196,7 @@ if(isset($_GET['id'])){
     if($helmetno > 0){
         $helmetcharge = $helmetcharge - $heladv;
         $amountdis = $totalamount + $helmetcharge;
+        echo "hel : ".$helmetcharge;
     } 
     else {
         $amountdis = $totalamount;
@@ -194,8 +208,79 @@ if(isset($_GET['id'])){
 
     //amount ot be paid for display
     
+    // GST Amount = Original Cost – (Original Cost * (100 / (100 + GST% ) ) )
+    // Net Price = Original Cost – GST Amount
+    if($helmetno == 0){
+        $gststmt = "SELECT gst_applicable FROM vehicle_type_master WHERE vtype_id = '$vhtype' AND flag = '1' AND active = '1'";
+        $gstres = $con->query($gststmt);
+        $gstrow = $gstres->fetch_assoc();
+
+        $gstapp = $gstrow['gst_applicable'];
+        if($gstapp == 1){
+            $stmt = "SELECT cgst, sgst FROM company_master WHERE company_id = '$com'";
+            $res = $con->query($stmt);
+            $row = $res->fetch_assoc();
+
+            $cgst = ($totalamount) - (($totalamount) * (100 / (100 + $row['cgst'])));
+            $sgst = ($totalamount) - (($totalamount) * (100 / (100 + $row['sgst'])));
+            $gst = $cgst + $sgst;
+        } else {
+            $cgst = 0;
+            $sgst = 0;
+            $gst = 0;
+        }
+    }
+    else {
+        $gststmt = "SELECT gst_applicable FROM vehicle_type_master WHERE vtype_id = '$vhtype' AND flag = '1' AND active = '1'";
+        $gstres = $con->query($gststmt);
+        $gstrow = $gstres->fetch_assoc();
+
+        $gstapp = $gstrow['gst_applicable'];
+
+        $gsthelstmt = "SELECT gst_applicable FROM vehicle_type_master WHERE vtype_id = '$helid' AND flag = '1' AND active = '1'";
+        $gsthelres = $con->query($gsthelstmt);
+        $gsthelrow = $gsthelres->fetch_assoc();
+
+        $gsthelapp = $gsthelrow['gst_applicable'];
+
+        if($gstapp == 1){
+            $stmt = "SELECT cgst, sgst FROM company_master WHERE company_id = '$com'";
+            $res = $con->query($stmt);
+            $row = $res->fetch_assoc();
+            if($gsthelapp == 1){
+                $cgst = ($totalamount + $helmetcharge + $heladv) - (($totalamount + $helmetcharge + $heladv) * (100 / (100 + $row['cgst'])));
+                $sgst = ($totalamount + $helmetcharge + $heladv) - (($totalamount + $helmetcharge + $heladv) * (100 / (100 + $row['sgst'])));
+                $gst = $cgst + $sgst;
+            } else {
+                $cgst = ($totalamount) - (($totalamount) * (100 / (100 + $row['cgst'])));
+                $sgst = ($totalamount) - (($totalamount) * (100 / (100 + $row['sgst'])));
+                $gst = $cgst + $sgst;
+            }
+        } else {
+            if($gsthelapp == 1){
+                $cgst = ($helmetcharge + $heladv) - (($helmetcharge + $heladv) * (100 / (100 + $row['cgst'])));
+                $sgst = ($helmetcharge + $heladv) - (($helmetcharge + $heladv) * (100 / (100 + $row['sgst'])));
+                $gst = $cgst + $sgst;
+            } else {
+                $cgst = 0;
+                $sgst = 0;
+                $gst = 0;
+            }
+        }
+
+    }
+
+    // $stmt = "SELECT cgst, sgst FROM company_master WHERE company_id = '$com'";
+    // $res = $con->query($stmt);
+    // $row = $res->fetch_assoc();
+
+    // $cgst = ($totalamount + $helmetcharge + $heladv) - (($totalamount + $helmetcharge + $heladv) * (100 / (100 + $row['cgst'])));
+    // $sgst = ($totalamount + $helmetcharge + $heladv) - (($totalamount + $helmetcharge + $heladv) * (100 / (100 + $row['sgst'])));
+    // $gst = $cgst + $sgst;
     
 
+    
+    echo round($cgst,3)." ".round($sgst,3)." ".round($gst,5);
 } 
 else {
     echo "<script>top.window.location = '../public/scan.php'</script>";
@@ -208,9 +293,17 @@ else {
 function ajaxcalll(time, ttldur, amount, helcharge, cid, slabid, slabnm ) {    
     $.ajax({ 
         url: 'transaction.php',
-        data: {"time" : time ,"ttldur" : ttldur, "amount" : amount, "helcharge" : helcharge, "cid" : cid, "slabid" : slabid, "slabnm" : slabnm},
+        data: {"time" : time ,"ttldur" : ttldur, "amount" : amount, "helcharge" : helcharge, "cid" : cid, "slabid" : slabid, "slabnm" : slabnm, "cgst" : cgst, "sgst": sgst, "gst": gst},
         type: 'POST',
-        success: function() { top.window.location = '../public/scan.php';},
+        success: function() { 
+            if(access == 'user'){
+                top.window.location = '../public/parking.php';  
+            } else if(access == 'security') {
+                top.window.location = '../public/scan.php';  
+            } else {
+                top.window.location = '../';
+            }
+        },
         error: function (request, error) {alert(" error Please contact vendor "); }
     });
 }
@@ -222,6 +315,9 @@ var hel = '<?php echo $helmetcharge ?>';
 var c = '<?php echo $CID ?>';
 var sl = '<?php echo $slabId ?>';
 var snm =  '<?php echo $slabName ?>';
+var cgst =  '<?php echo round($cgst,3) ?>';
+var sgst =  '<?php echo round($sgst,3) ?>';
+var gst =  '<?php echo round($gst,3) ?>';
 
 setTimeout(function() {
     swal({
@@ -241,11 +337,17 @@ setTimeout(function() {
         }).then((paid) => {
             if(paid) {
                 
-                ajaxcalll(t,ttl,amt,hel,c,sl,snm);
+                ajaxcalll(t,ttl,amt,hel,c,sl,snm,cgst,sgst,gst);
             }            
         });
         } else {
-            top.window.location = "../public/scan.php";
+            if(access == 'user'){
+                top.window.location = '../public/parking.php';  
+            } else if(access == 'security') {
+                top.window.location = '../public/scan.php';  
+            } else {
+                top.window.location = '../';
+            }
         }
     });
 }, 200);

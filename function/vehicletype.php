@@ -30,14 +30,15 @@ include ('../include/db.php');
 
             $vhtype = mysqli_real_escape_string($con, $_POST["vhtype"]);
             $shkey = mysqli_real_escape_string($con, $_POST["skey"]);  
+            $gstapp = mysqli_real_escape_string($con, $_POST["gstapp"]);   
             
             //active / inactive
             $flag = 1;
             $active = 1;
             //Inserting to database
-            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by, shortcut, active) VALUES(?,?,?,?,?,?,?)";  
+            $query = "INSERT INTO vehicle_type_master (vtype_id, vtype_name, flag, created_date, created_by, shortcut, active, gst_applicable) VALUES(?,?,?,?,?,?,?,?)";  
             $stmt = $con->prepare($query);
-            $stmt->bind_param('ssdsssd',$vhid,$vhtype,$flag,$time,$UID,$shkey,$active);
+            $stmt->bind_param('ssdsssdd',$vhid,$vhtype,$flag,$time,$UID,$shkey,$active,$gstapp);
             echo "line1";
 
             if ($stmt->execute()) {

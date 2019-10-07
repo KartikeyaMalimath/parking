@@ -79,8 +79,9 @@ if(isset($_POST['vhtype']) && isset($_GET['vedit'])) {
 
     $vhtype = mysqli_real_escape_string($con, $_POST["vhtype"]);
     $shkey = mysqli_real_escape_string($con, $_POST["skey"]); 
+    $gstapp = mysqli_real_escape_string($con, $_POST["gstapp"]); 
 
-    $vstmt = "UPDATE vehicle_type_master SET vtype_name = '$vhtype', created_date = '$time', created_by = '$user', shortcut = '$shkey' WHERE vtype_id = '$veditid'";
+    $vstmt = "UPDATE vehicle_type_master SET vtype_name = '$vhtype', created_date = '$time', created_by = '$user', shortcut = '$shkey', gst_applicable = '$gstapp' WHERE vtype_id = '$veditid'";
     mysqli_query($vstmt);
     if($con->query($vstmt) == TRUE) {
         echo "Update successful";

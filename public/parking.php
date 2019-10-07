@@ -97,7 +97,12 @@ $user = $_SESSION['user'];
                             <label for="trhelsel">Helmet</label>
                             <select class="form-control" id="trhelsel" name="trhelsel" tabindex="5" onchange="helmetfocus()" required>
                                 <option value="no">No</option>
-                                <option value="yes">Yes</option>
+                                <?php
+                                    $helstmt = "SELECT vtype_id FROM vehicle_type_master WHERE vtype_name = 'Helmet' OR vtype_name = 'helmet' AND flag = '1' AND active = '1'";
+                                    $helres = $con->query($helstmt);
+                                    $helrow = $helres->fetch_assoc();
+                                ?>
+                                <option value="<?php echo $helrow['vtype_id']?>">Yes</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -144,7 +149,7 @@ function helmetfocus(){
     var e = document.getElementById("trhelsel");
     var selectedValue = e.options[e.selectedIndex].value;
 
-    if(selectedValue == "yes")
+    if(selectedValue != "no")
     {
         document.getElementById("trheladv").disabled = false;
         document.getElementById("trheladv").tabindex = 7;
@@ -195,8 +200,8 @@ let scanner = new Instascan.Scanner(
     }
 );
 scanner.addListener('scan', function(content) {
-    //top.window.location = "../function/amount.php?id="+content;
-    alert(content);s
+    top.window.location = "../function/amount.php?id="+content;
+    
 });
 Instascan.Camera.getCameras().then(cameras => 
 {

@@ -80,8 +80,7 @@ let scanner = new Instascan.Scanner(
     }
 );
 scanner.addListener('scan', function(content) {
-    //top.window.location = "../function/amount.php?id="+content;
-    alert(content);
+    top.window.location = "../function/amount.php?id="+content;
 });
 Instascan.Camera.getCameras().then(cameras => 
 {
