@@ -15,7 +15,6 @@
 
 <script type="text/javascript">
 var access = '<?php echo $permission; ?>';
-console.log(access);
 </script>
 
 </body>

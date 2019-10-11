@@ -58,8 +58,13 @@ td{
 </head>
 <!-- fetch company details -->
 <?php
-
-    $query1 = "SELECT * FROM transaction_master";
+    if(isset($_GET['in']) && isset($_GET['out'])){
+        $in = date('d-m-Y 00:00:00', strtotime($_GET['in']));
+        $out = date('d-m-Y 23:59:59', strtotime($_GET['out']));
+        $query1 = "SELECT * FROM transaction_master WHERE check_in >= '$in' AND check_in <= '$out'";
+    } else {
+        $query1 = "SELECT * FROM transaction_master";
+    }
     $result1 = $con->query($query1);
 
 ?>
@@ -131,6 +136,21 @@ td{
                 </td>
             </tr>
         </table>
+        <table>
+            <tr>
+                <td>
+                    <form type = "GET" action = "./reports.php">
+                        <input type="date" name = "in" id = "in" class = "form-control" required>
+                </td><td>
+                        <input type="date" name = "out" id = "out" class = "form-control" required>
+                </td>
+                <td>
+                    <input type="submit" class = "btn btn-success" value = "Search">
+                    </form>
+                    <a class = "btn btn-info" href="./reports.php">Clear</a>
+                </td>
+            </tr>
+        </table>
         </form>
         </div>
     </div>
@@ -142,18 +162,22 @@ td{
                 <tr>
                     <th data-column="0">Transaction</th>
                     <th>Vehicle Number</th>
-                    <th>Vehicle Type</th>
+                    <th>Type</th>
                     <th>Check-In</th>
                     <th>Check-Out</th>
-                    <th>Total Duration</th>
-                    <th>Amount</th>
+                    <th>Duration</th>
+                    <th>Parking Amount</th>
                     <th>Helmet Amount</th>
-                    <th>GST</th>
+                    <th>GST Amount</th>
                 </tr>
             </thead>
             <tbody>
                 
                     <?php
+                    $totalamt = 0;
+                    $totalhel = 0;
+                    $totalgst = 0;
+
                     while ($row = $result1-> fetch_assoc()) {
                         if($row['helmet_advance'] == NULL){
                             $heladv = 0;
@@ -181,6 +205,10 @@ td{
                         $trhel = $heladv + $hel;
                         $trgst = $row['gst'];
 
+                        $totalamt += $tramt;
+                        $totalhel += $trhel;
+                        $totalgst += $trgst;
+
                         //fetch vehicle type
                         $query2 = "SELECT * FROM vehicle_type_master WHERE vtype_id = '$vhtype' ";
                         $result2 = $con->query($query2);
@@ -194,14 +222,28 @@ td{
                                     <td>".$trin."</td>
                                     <td>".$trout."</td>
                                     <td>".$trdur."</td>
-                                    <td>".$tramt."</td>
-                                    <td>".$trhel."</td>
-                                    <td>".$trgst."</td></tr>";
+                                    <td>₹ ".$tramt."</td>
+                                    <td>₹ ".$trhel."</td>
+                                    <td>₹ ".$trgst."</td></tr>";
                     }
                     
                     ?>
                 
             </tbody>
+            <tfoot>
+                <tr style="display:visible">
+                    <th>Total : </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <!-- <th style="text-align:left">Total: ₹ </th> -->
+                    <th><?php echo "₹ ".$totalamt; ?></th>
+                    <th><?php echo "₹ ".$totalhel; ?></th>
+                    <th><?php echo "₹ ".$totalgst; ?></th>
+                </tr>
+            </tfoot>
             
         </table>
         
@@ -215,12 +257,12 @@ td{
 var table = $('#transaction').DataTable();
 
 $(document).ready( function () {
-    
  
     new $.fn.dataTable.Buttons( table, {
         buttons: [
             {
                 extend: 'print',
+                footer: true,
                 text: 'Print',
                 className : 'btn btn-info',
                 exportOptions: {
@@ -240,6 +282,8 @@ $(document).ready( function () {
         table.table().container()
     );
 
+   
+
 } );
 
 $('input.toggle-vis').on( 'click', function (e) {
@@ -251,16 +295,6 @@ $('input.toggle-vis').on( 'click', function (e) {
         // Toggle the visibility
         column.visible( ! column.visible() );
     } );
-// function printDiv(divName) {
-//     var printContents = document.getElementById(divName).innerHTML;
-//     var originalContents = document.body.innerHTML;
-
-//     document.body.innerHTML = printContents;
-
-//     window.print();
-
-//     document.body.innerHTML = originalContents;
-// }
 
 </script>
 

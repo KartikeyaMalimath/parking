@@ -64,7 +64,21 @@ $user = $_SESSION['user'];
             </div>
             <div class = "col-sm-6" >
             <!--Registration form-->
-            
+            <div class="card reg" style="width : 95%; ">
+                <div class="card-container" style="padding:2vh">
+                <h4><center>Check out</center></h4>
+                    <form method='GET' action = '../function/amount.php'>
+                        <div class='form-group'>
+                            <label for='id'>Ticket Number</label>
+                            <input type='text' class='form-control' name='id' id= 'id' required>
+                        </div>
+                        <br>
+                        <div class='form-group'>
+                            <button type='submit' class='btn btn-success' name='submit' id='submit' value='submit' style='font-size : 14px; width : 100%;'>Submit</button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
             <!--registration form end-->
             </div>
         </div>    
