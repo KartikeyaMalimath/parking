@@ -91,5 +91,28 @@ if(isset($_POST['vhtype']) && isset($_GET['vedit'])) {
 
 }
 
+//edit checkin printer
+if(isset($_POST['namein']) && isset($_POST['typein'])){
+    $namein = $_POST['namein'];
+    $typein = $_POST['typein'];
+
+    $myfile = fopen("../settings/checkin.conf", "w") or die("Unable to open file!");
+    $txt = "".$user."|".$namein."|".$typein."";
+    fwrite($myfile, $txt);
+    fclose($myfile);
+    echo "<script>top.window.location = '../public/settings.php'</script>";
+}
+
+//edit checkout printer
+if(isset($_POST['nameout']) && isset($_POST['typeout'])){
+    $nameout = $_POST['nameout'];
+    $typeout = $_POST['typeout'];
+
+    $myfile = fopen("../settings/checkout.conf", "w") or die("Unable to open file!");
+    $txt = "".$user."|".$nameout."|".$typeout."";
+    fwrite($myfile, $txt);
+    fclose($myfile);
+    echo "<script>top.window.location = '../public/settings.php'</script>";
+}
 
 ?>

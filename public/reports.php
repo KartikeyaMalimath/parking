@@ -58,12 +58,16 @@ td{
 </head>
 <!-- fetch company details -->
 <?php
+    date_default_timezone_set('Asia/Kolkata'); 
+    $t=time();
+    $limitime = date("d-m-Y 00:00:00", $t);
+
     if(isset($_GET['in']) && isset($_GET['out'])){
         $in = date('d-m-Y 00:00:00', strtotime($_GET['in']));
         $out = date('d-m-Y 23:59:59', strtotime($_GET['out']));
         $query1 = "SELECT * FROM transaction_master WHERE check_in >= '$in' AND check_in <= '$out'";
     } else {
-        $query1 = "SELECT * FROM transaction_master";
+        $query1 = "SELECT * FROM transaction_master WHERE check_in >= '$time'";
     }
     $result1 = $con->query($query1);
 

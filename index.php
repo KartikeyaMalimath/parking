@@ -30,6 +30,14 @@ include ('include/data.php');
                 x.type = "password";
             }
         }
+        
+
+        var goFS = document.getElementById("goFS");
+        goFS.addEventListener("click", function() {
+            document.body.requestFullscreen();
+            document.body.webkitRequestFullScreen();
+        }, false);
+
     </script>
     
 </head>
@@ -40,7 +48,7 @@ include ('include/data.php');
     <div class="row h-100" style="heigh:100%;">
     <!-- column for Image-->
         <div class = "col-sm-7" style="background-image:url('images/loginBG.jpg'); margin:0px;">
-        
+        <!-- <button id="goFS">Go fullscreen</button> -->
         </div>
     <!--column for login box-->
         <div class = "col-sm-5 shadow-sm login">

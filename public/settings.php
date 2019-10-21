@@ -133,8 +133,81 @@ $company = $_SESSION['company'];
             <div class = "col-sm-4" >
             <!--Column 2-->
             <div class="card" style="width : 90%">
-                <div class="card-container"><center>
-                        Empty Card            
+                <div class="card-container">
+                <h4 style="text-align : center"><b>Printer Details</b></h4> 
+                    <hr>
+                    <?php 
+                        $checkinprint = "NULL";
+                        $checkintype = "NULL";
+                        if(file_exists('../settings/checkin.conf') == 1) {
+                            $fn = @fopen("../settings/checkin.conf","r");
+                            if(strlen(file_get_contents("../settings/checkin.conf")) > 0 ){
+                                while(!feof($fn))  
+                                {
+                                    $result = fgets($fn);
+                                    $data=explode('|', $result, 5);
+                                    // $userName=$_SESSION['currentUser'];
+                                    $checkinprint=trim($data[1]);
+                                    $checkintype=trim($data[2]);
+                                } 
+                            }                          
+                            fclose($fn);
+                        } else {
+                            echo "Setting File not found";
+                        }
+                          
+
+                        if(isset($_GET['printedit'])) {
+                            echo "
+                                <form method='POST' id = 'printout' action = '../function/edit.php'>
+                                    <div class='form-group'>
+                                        <label for='namein'>Printer Name / IP</label>
+                                        <input type='text' class='form-control' name='namein' id= 'namein' value='{$checkinprint}' required>
+                                    </div>
+                                    <div class='form-group'>
+                                        <label for='typein'>Printer type</label>
+                                        <select class = 'form-control' name='typein' id='typein' required>";
+                                        if($checkintype == 'remote'){
+                                            echo "
+                                            <option value='remote' selected>Remote</option>
+                                            <option value='local'>Local</option>";
+                                        } else if($checkintype == 'local'){
+                                            echo "
+                                            <option value='remote'>Remote</option>
+                                            <option value='local'selected>Local</option>";
+                                        } else {
+                                            echo "
+                                            <option value='remote'>Remote</option>
+                                            <option value='local>Local</option>";
+                                        }
+                                    echo "        
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class='form-group'>
+                                        <button type='submit' class='btn btn-success' name='submit' id='submit' value='submit' style='font-size : 14px; width : 100%;'>Submit</button>
+                                    </div> 
+                                </form>
+                            ";
+                        }
+                        else {
+                            echo "
+                                <p>
+                                <table>
+                                <tr>
+                                    <td colspan = '2'>Check-In Printer</td>
+                                </tr>
+                                <tr>
+                                    <th>Printer</th><td> : </td><td>{$checkinprint}</td>
+                                </tr>
+                                <tr>
+                                    <th>Type</th><td> : </td><td>{$checkintype}</td>
+                                </tr>
+                                </table></p>
+                                <center><a class='btn btn-success' href = './settings.php?printedit=1' style='font-size : 14px; padding-left : 30px;  padding-right : 30px;'>Edit</a></center>
+                            ";
+                        }
+                    ?>            
                 </div>
             </div>
             <!--Column 2 end-->
@@ -143,7 +216,80 @@ $company = $_SESSION['company'];
             <!--Column 3-->
             <div class="card" style="width : 90%">
                 <div class="card-container">
-                    empty card                   
+                    <h4 style="text-align : center"><b>Printer Details</b></h4> 
+                    <hr>
+                    <?php    
+                        $checkoutprint = "NULL";
+                        $checkouttype = "NULL";
+                        if(file_exists('../settings/checkout.conf') == 1) {
+                            $fn = @fopen("../settings/checkout.conf","r");
+                            if(strlen(file_get_contents("../settings/checkout.conf")) > 0 ){
+                                while(!feof($fn))  
+                                {
+                                    $result = fgets($fn);
+                                    $data=explode('|', $result, 5);
+                                    // $userName=$_SESSION['currentUser'];
+                                    $checkoutprint=trim($data[1]);
+                                    $checkouttype=trim($data[2]);
+                                } 
+                            }                          
+                            fclose($fn);
+                        } else {
+                            echo "Setting File not found";
+                        }
+                        
+
+                        if(isset($_GET['printoutedit'])) {
+                            echo "
+                                    <form method='POST' id = 'printout' action = '../function/edit.php'>
+                                        <div class='form-group'>
+                                            <label for='nameout'>Printer Name / IP</label>
+                                            <input type='text' class='form-control' name='nameout' id= 'nameout' value='{$checkoutprint}' required>
+                                        </div>
+                                        <div class='form-group'>
+                                            <label for='typeout'>Printer type</label>
+                                            <select class = 'form-control' name='typeout' id='typeout' required>";
+                                            if($checkouttype == 'remote'){
+                                                echo "
+                                                <option value='remote' selected>Remote</option>
+                                                <option value='local'>Local</option>";
+                                            } else if($checkouttype == 'local'){
+                                                echo "
+                                                <option value='remote'>Remote</option>
+                                                <option value='local'selected>Local</option>";
+                                            } else {
+                                                echo "
+                                                <option value='remote'>Remote</option>
+                                                <option value='local>Local</option>";
+                                            }
+                                        echo "        
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <div class='form-group'>
+                                            <button type='submit' class='btn btn-success' name='submit' id='submit' value='submit' style='font-size : 14px; width : 100%;'>Submit</button>
+                                        </div> 
+                                    </form>
+                            ";
+                        }
+                        else {
+                            echo "
+                                <p>
+                                <table>
+                                <tr>
+                                    <td colspan = '2'>Check-Out Printer</td>
+                                </tr>
+                                <tr>
+                                    <th>Printer</th><td> : </td><td>{$checkoutprint}</td>
+                                </tr>
+                                <tr>
+                                    <th>Type</th><td> : </td><td>{$checkouttype}</td>
+                                </tr>
+                                </table></p>
+                                <center><a class='btn btn-success' href = './settings.php?printoutedit=1' style='font-size : 14px; padding-left : 30px;  padding-right : 30px;'>Edit</a></center>
+                            ";
+                        }
+                    ?>                  
                 </div>
             </div>
             <!--Column 3 end-->
@@ -159,28 +305,29 @@ var gstfrm = $('#gstform');
 
 gstfrm.submit(function(e) {
 
-    e.preventDefault(); // avoid to execute the actual submit of the form.
+e.preventDefault(); // avoid to execute the actual submit of the form.
 
-    var form = $(this);
-    var url = form.attr('action');
+var form = $(this);
+var url = form.attr('action');
 
-    $.ajax({
-       type: "POST",
-       url: gstfrm.attr('action'),
-       data: gstfrm.serialize(), // serializes the form's elements.
-       success: function(data)
-       {
-           top.window.location = './settings.php'
-       },
-        error: function (data) {
-            alert('!!! Edit GST Unsuccessful !!!')
-            console.log('An error occurred.');
-            console.log(data);
-        }
-     });
-
-
+$.ajax({
+   type: "POST",
+   url: gstfrm.attr('action'),
+   data: gstfrm.serialize(), // serializes the form's elements.
+   success: function(data)
+   {
+       top.window.location = './settings.php'
+   },
+    error: function (data) {
+        alert('!!! Edit GST Unsuccessful !!!')
+        console.log('An error occurred.');
+        console.log(data);
+    }
+ });
 });
+
+
+
 
 </script>
 
